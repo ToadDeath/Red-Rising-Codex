@@ -929,36 +929,27 @@ function populateProgressChapters(
     }
 
 
-    book.parts.forEach(part => {
-
-        const group =
-            document.createElement("optgroup");
-
-
-        group.label =
-            part.title;
+    const allChapters =
+        book.parts.flatMap(
+            part => part.chapters
+        );
 
 
-        part.chapters.forEach(chapter => {
+    allChapters.forEach(chapter => {
 
-            const option =
-                document.createElement("option");
-
-
-            option.value =
-                chapter.number;
+        const option =
+            document.createElement("option");
 
 
-            option.textContent =
-                chapter.title;
+        option.value =
+            chapter.number;
 
 
-            group.appendChild(option);
+        option.textContent =
+            chapter.title;
 
-        });
 
-
-        select.appendChild(group);
+        select.appendChild(option);
 
     });
 
@@ -966,9 +957,6 @@ function populateProgressChapters(
     select.value =
         currentChapter;
 
-
-    // If the saved chapter doesn't exist
-    // in this book, select the first chapter.
 
     if (
         select.value !==
@@ -1003,28 +991,79 @@ function updateProgressSummary() {
     }
 
 
-    const chapter =
-        book.parts
-            .flatMap(part => part.chapters)
-            .find(
-                chapter =>
-                    chapter.number ===
-                    currentChapter
-            );
+    const allChapters =
+        book.parts.flatMap(
+            part => part.chapters
+        );
 
 
-    if (!chapter) {
+    const chapterIndex =
+        allChapters.findIndex(
+            chapter =>
+                chapter.number ===
+                currentChapter
+        );
+
+
+    if (chapterIndex === -1) {
         return;
     }
 
 
+    const chapter =
+        allChapters[chapterIndex];
+
+
+    const totalChapters =
+        allChapters.length;
+
+
+    const progress =
+        ((chapterIndex + 1) / totalChapters) * 100;
+
+
+    const currentPart =
+        book.parts.find(
+            part =>
+                part.chapters.some(
+                    chapter =>
+                        chapter.number ===
+                        currentChapter
+                )
+        );
+
+
     element.innerHTML = `
 
-        <a href="#/progress">
+        <a
+            href="#/progress"
+            class="progress-link"
+        >
 
-            ${book.title}
-            -
-            ${chapter.title}
+            <div class="progress-book-title">
+                ${book.title}
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-bar-fill"
+                    style="width: ${progress}%"
+                ></div>
+
+            </div>
+
+            <div class="progress-details">
+
+                <span>
+                    ${currentPart.title}
+                </span>
+
+                <span>
+                    ${chapter.title}
+                </span>
+
+            </div>
 
         </a>
 
