@@ -2,131 +2,201 @@
 // RED RISING CODEX
 // ========================================
 
-// Test information for our spoiler system.
-// Each fact has a book and chapter where it becomes safe to reveal.
 
-const codexData = [
-
-    {
-        type: "character",
-        name: "Darrow",
-        book: 1,
-        chapter: 1,
-        title: "Darrow",
-        text: "Darrow is a Red miner living beneath the surface of Mars."
-    },
-
-    {
-        type: "character",
-        name: "Eo",
-        book: 1,
-        chapter: 1,
-        title: "Eo",
-        text: "Eo is Darrow's wife."
-    },
-
-    {
-        type: "character",
-        name: "Sevro",
-        book: 1,
-        chapter: 5,
-        title: "Sevro",
-        text: "Sevro is a Gold associated with the Howlers."
-    },
-
-    {
-        type: "location",
-        name: "Mars",
-        book: 1,
-        chapter: 1,
-        title: "Mars",
-        text: "Mars is the setting for much of the beginning of Darrow's story."
-    },
-
-    {
-        type: "faction",
-        name: "The Society",
-        book: 1,
-        chapter: 2,
-        title: "The Society",
-        text: "The Society is the ruling social and political order of the world Darrow inhabits."
-    },
-
-    {
-        type: "test",
-        name: "Golden Son",
-        book: 2,
-        chapter: 1,
-        title: "Golden Son",
-        text: "This information should remain hidden until the reader reaches Golden Son."
-    }
-
-];
-
-
-// Current reading position
+// ========================================
+// READING PROGRESS
+// ========================================
 
 let currentBook = 1;
-let currentChapter = 1;
+let currentChapter = 0;
 
 
-// Convert a book/chapter combination into a number
-// so that we can easily determine which information
-// the reader has unlocked.
+// ========================================
+// BOOK / CHAPTER HELPERS
+// ========================================
 
-function readingPosition(book, chapter) {
-    return (book * 1000) + chapter;
+
+// Find a book using its number.
+
+function getBook(bookNumber) {
+
+    return books.find(
+        book => book.number === bookNumber
+    );
+
 }
 
 
-// Determine whether a piece of information is safe to show.
+// Get every chapter from a book.
 
-function isUnlocked(item) {
+function getChapters(bookNumber) {
+
+    const book = getBook(bookNumber);
+
+    if (!book) {
+        return [];
+    }
+
+    return book.parts.flatMap(
+        part => part.chapters
+    );
+
+}
+
+
+// Find the name of the current book.
+
+function getBookTitle(bookNumber) {
+
+    const book = getBook(bookNumber);
+
+    return book ? book.title : "";
+
+}
+
+
+// ========================================
+// SPOILER POSITION
+// ========================================
+
+
+// Convert book + chapter into a number
+// that allows us to compare reading positions.
+
+function readingPosition(book, chapter) {
+
+    return (book * 1000) + chapter;
+
+}
+
+
+// ========================================
+// PROFILE SYSTEM
+// ========================================
+
+
+// Find the most recent profile that the reader
+// has unlocked for a particular entity.
+
+function getCurrentProfile(entity) {
 
     const readerPosition = readingPosition(
         currentBook,
         currentChapter
     );
 
-    const itemPosition = readingPosition(
-        item.book,
-        item.chapter
-    );
+    let currentProfile = null;
 
-    return itemPosition <= readerPosition;
+    entity.profiles.forEach(profile => {
+
+        const profilePosition = readingPosition(
+            profile.from.book,
+            profile.from.chapter
+        );
+
+        if (profilePosition <= readerPosition) {
+
+            if (
+                currentProfile === null ||
+                profilePosition >
+                readingPosition(
+                    currentProfile.from.book,
+                    currentProfile.from.chapter
+                )
+            ) {
+
+                currentProfile = profile;
+
+            }
+
+        }
+
+    });
+
+    return currentProfile;
+
 }
 
 
-// Display all currently unlocked information.
+// ========================================
+// DISPLAY CHARACTERS
+// ========================================
 
-function displayCodex() {
+function displayCharacters() {
 
-    const container = document.getElementById("codex-content");
+    const container =
+        document.getElementById("codex-content");
 
     container.innerHTML = "";
 
-    const unlockedItems = codexData.filter(isUnlocked);
 
-    if (unlockedItems.length === 0) {
+    characters.forEach(character => {
 
-        container.innerHTML = `
-            <p>No information has been unlocked yet.</p>
-        `;
-
-        return;
-    }
+        const profile =
+            getCurrentProfile(character);
 
 
-    unlockedItems.forEach(item => {
+        // If the reader hasn't encountered
+        // this character yet, don't show them.
 
-        const card = document.createElement("div");
+        if (!profile) {
+            return;
+        }
+
+
+        const card =
+            document.createElement("div");
 
         card.className = "codex-card";
 
+
+        let affiliationsHTML = "";
+
+        if (profile.affiliations.length > 0) {
+
+            affiliationsHTML = `
+                <p>
+                    <strong>Affiliations:</strong>
+                    ${profile.affiliations.join(", ")}
+                </p>
+            `;
+
+        }
+
+
+        let relationshipsHTML = "";
+
+        if (profile.relationships.length > 0) {
+
+            relationshipsHTML = `
+                <p>
+                    <strong>Relationships:</strong>
+                    ${profile.relationships.join(", ")}
+                </p>
+            `;
+
+        }
+
+
         card.innerHTML = `
-            <h3>${item.title}</h3>
-            <p>${item.text}</p>
+
+            <h3>${character.name}</h3>
+
+            <p>
+                <strong>Identity:</strong>
+                ${profile.identity}
+            </p>
+
+            <p>
+                ${profile.summary}
+            </p>
+
+            ${affiliationsHTML}
+
+            ${relationshipsHTML}
+
         `;
+
 
         container.appendChild(card);
 
@@ -135,72 +205,221 @@ function displayCodex() {
 }
 
 
-// Update the progress display.
+// ========================================
+// BOOK SELECTOR
+// ========================================
 
-function updateProgressDisplay() {
+function populateBooks() {
 
-    const bookSelect = document.getElementById("book-select");
-    const chapterInput = document.getElementById("chapter-input");
-    const progressText = document.getElementById("current-progress");
+    const bookSelect =
+        document.getElementById("book-select");
 
-    currentBook = Number(bookSelect.value);
-    currentChapter = Number(chapterInput.value);
+    bookSelect.innerHTML = "";
 
-    progressText.textContent =
-        `Reading progress: ${bookSelect.options[bookSelect.selectedIndex].text}, Chapter ${currentChapter}`;
 
-    displayCodex();
+    books.forEach(book => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = book.number;
+
+        option.textContent = book.title;
+
+        bookSelect.appendChild(option);
+
+    });
+
+
+    bookSelect.value = currentBook;
 
 }
 
 
-// Save progress when the button is clicked.
+// ========================================
+// CHAPTER SELECTOR
+// ========================================
 
-document.getElementById("update-progress").addEventListener(
-    "click",
-    function() {
+function populateChapters() {
 
-        updateProgressDisplay();
+    const chapterSelect =
+        document.getElementById("chapter-select");
 
-        localStorage.setItem(
-            "redRisingBook",
-            currentBook
-        );
+    chapterSelect.innerHTML = "";
 
-        localStorage.setItem(
-            "redRisingChapter",
-            currentChapter
-        );
 
+    const book = getBook(currentBook);
+
+    if (!book) {
+        return;
     }
-);
 
 
-// Load saved progress when the page opens.
+    book.parts.forEach(part => {
+
+        const group =
+            document.createElement("optgroup");
+
+        group.label = part.title;
+
+
+        part.chapters.forEach(chapter => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = chapter.number;
+
+            option.textContent =
+                chapter.title;
+
+            group.appendChild(option);
+
+        });
+
+
+        chapterSelect.appendChild(group);
+
+    });
+
+
+    chapterSelect.value = currentChapter;
+
+}
+
+
+// ========================================
+// PROGRESS DISPLAY
+// ========================================
+
+function updateProgressDisplay() {
+
+    const progressText =
+        document.getElementById("current-progress");
+
+    const bookTitle =
+        getBookTitle(currentBook);
+
+
+    const chapterSelect =
+        document.getElementById("chapter-select");
+
+    const selectedOption =
+        chapterSelect.options[
+            chapterSelect.selectedIndex
+        ];
+
+
+    progressText.textContent =
+        `Reading progress: ${bookTitle}, ${selectedOption.textContent}`;
+
+
+    displayCharacters();
+
+}
+
+
+// ========================================
+// BOOK CHANGE
+// ========================================
+
+document
+    .getElementById("book-select")
+    .addEventListener(
+        "change",
+        function() {
+
+            currentBook =
+                Number(this.value);
+
+            currentChapter = 0;
+
+            populateChapters();
+
+        }
+    );
+
+
+// ========================================
+// UPDATE PROGRESS
+// ========================================
+
+document
+    .getElementById("update-progress")
+    .addEventListener(
+        "click",
+        function() {
+
+            const chapterSelect =
+                document.getElementById("chapter-select");
+
+
+            currentChapter =
+                Number(chapterSelect.value);
+
+
+            updateProgressDisplay();
+
+
+            localStorage.setItem(
+                "redRisingBook",
+                currentBook
+            );
+
+
+            localStorage.setItem(
+                "redRisingChapter",
+                currentChapter
+            );
+
+        }
+    );
+
+
+// ========================================
+// LOAD SAVED PROGRESS
+// ========================================
 
 function loadSavedProgress() {
 
-    const savedBook = localStorage.getItem("redRisingBook");
-    const savedChapter = localStorage.getItem("redRisingChapter");
+    const savedBook =
+        localStorage.getItem(
+            "redRisingBook"
+        );
+
+    const savedChapter =
+        localStorage.getItem(
+            "redRisingChapter"
+        );
+
 
     if (savedBook !== null) {
-        currentBook = Number(savedBook);
+
+        currentBook =
+            Number(savedBook);
+
     }
+
 
     if (savedChapter !== null) {
-        currentChapter = Number(savedChapter);
+
+        currentChapter =
+            Number(savedChapter);
+
     }
 
 
-    document.getElementById("book-select").value = currentBook;
+    populateBooks();
 
-    document.getElementById("chapter-input").value = currentChapter;
+    populateChapters();
 
     updateProgressDisplay();
 
 }
 
 
-// Start the website.
+// ========================================
+// START
+// ========================================
 
 loadSavedProgress();
