@@ -644,13 +644,11 @@ function renderRelationships(profile) {
         profile.relationships
             .map(item => {
 
-                const link =
-                    createEntityLink(
-                        item.entity
-                    );
+                const entity =
+                    getEntity(item.entity);
 
 
-                if (!link) {
+                if (!entity || !isEntityUnlocked(entity)) {
                     return "";
                 }
 
@@ -659,11 +657,18 @@ function renderRelationships(profile) {
 
                     <div class="relationship">
 
-                        ${link}
+                        <div class="relationship-name">
+                            <a
+                                href="#/entity/${entity.id}"
+                                class="entity-link"
+                            >
+                                ${entity.name}
+                            </a>
+                        </div>
 
-                        <span>
+                        <div class="relationship-description">
                             ${item.description}
-                        </span>
+                        </div>
 
                     </div>
 
@@ -684,7 +689,11 @@ function renderRelationships(profile) {
 
             <h2>Relationships</h2>
 
-            ${visibleRelationships.join("")}
+            <div class="relationships-list">
+
+                ${visibleRelationships.join("")}
+
+            </div>
 
         </div>
 
