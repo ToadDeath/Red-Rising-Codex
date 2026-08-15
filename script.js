@@ -8,15 +8,15 @@
 // ========================================
 
 let currentBook = 1;
-let currentChapter = 0;
+let currentChapter = 1;
 
 
 // ========================================
-// BOOK / CHAPTER HELPERS
+// BASIC HELPERS
 // ========================================
 
 
-// Find a book using its number.
+// Find a book by number.
 
 function getBook(bookNumber) {
 
@@ -27,45 +27,34 @@ function getBook(bookNumber) {
 }
 
 
-// Get every chapter from a book.
+// Find an entity by ID.
 
-function getChapters(bookNumber) {
+function getEntity(entityId) {
 
-    const book = getBook(bookNumber);
-
-    if (!book) {
-        return [];
-    }
-
-    return book.parts.flatMap(
-        part => part.chapters
+    return entities.find(
+        entity => entity.id === entityId
     );
 
 }
 
 
-// Find the name of the current book.
-
-function getBookTitle(bookNumber) {
-
-    const book = getBook(bookNumber);
-
-    return book ? book.title : "";
-
-}
-
-
-// ========================================
-// SPOILER POSITION
-// ========================================
-
-
-// Convert book + chapter into a number
-// that allows us to compare reading positions.
+// Get the current reading position as a number.
 
 function readingPosition(book, chapter) {
 
     return (book * 1000) + chapter;
+
+}
+
+
+// Get the reader's current position.
+
+function getCurrentReadingPosition() {
+
+    return readingPosition(
+        currentBook,
+        currentChapter
+    );
 
 }
 
@@ -75,24 +64,25 @@ function readingPosition(book, chapter) {
 // ========================================
 
 
-// Find the most recent profile that the reader
-// has unlocked for a particular entity.
+// Find the most recent profile that has
+// been unlocked for an entity.
 
 function getCurrentProfile(entity) {
 
-    const readerPosition = readingPosition(
-        currentBook,
-        currentChapter
-    );
+    const readerPosition =
+        getCurrentReadingPosition();
 
     let currentProfile = null;
 
+
     entity.profiles.forEach(profile => {
 
-        const profilePosition = readingPosition(
-            profile.from.book,
-            profile.from.chapter
-        );
+        const profilePosition =
+            readingPosition(
+                profile.from.book,
+                profile.from.chapter
+            );
+
 
         if (profilePosition <= readerPosition) {
 
@@ -113,87 +103,241 @@ function getCurrentProfile(entity) {
 
     });
 
+
     return currentProfile;
 
 }
 
 
 // ========================================
-// DISPLAY CHARACTERS
+// ENTITY VISIBILITY
 // ========================================
 
-function displayCharacters() {
+
+// Determine whether the reader has encountered
+// an entity yet.
+
+function isEntityUnlocked(entity) {
+
+    return getCurrentProfile(entity) !== null;
+
+}
+
+
+// ========================================
+// ENTITY LINKS
+// ========================================
+
+
+// Turn an entity ID into a clickable link,
+// but only if the reader has encountered it.
+
+function createEntityLink(
+    entityId,
+    description = null
+) {
+
+    const entity =
+        getEntity(entityId);
+
+
+    if (!entity) {
+        return "";
+    }
+
+
+    if (!isEntityUnlocked(entity)) {
+        return "";
+    }
+
+
+    const text =
+        description || entity.name;
+
+
+    return `
+        <a
+            href="#/entity/${entity.id}"
+            class="entity-link"
+        >
+            ${text}
+        </a>
+    `;
+
+}
+
+
+// ========================================
+// CATEGORY INFORMATION
+// ========================================
+
+const categoryInfo = {
+
+    character: {
+        title: "Characters",
+        description:
+            "The people you have encountered so far."
+    },
+
+    location: {
+        title: "Locations",
+        description:
+            "Places you have encountered so far."
+    },
+
+    house: {
+        title: "Houses",
+        description:
+            "The Houses and their members."
+    },
+
+    faction: {
+        title: "Factions",
+        description:
+            "Organizations and political groups."
+    },
+
+    concept: {
+        title: "Concepts",
+        description:
+            "Important ideas, terminology, technology, and customs."
+    },
+
+    event: {
+        title: "Events",
+        description:
+            "Important events you have encountered."
+    }
+
+};
+
+
+// ========================================
+// CATEGORY ORDER
+// ========================================
+
+const categoryOrder = [
+
+    "character",
+    "location",
+    "house",
+    "faction",
+    "concept",
+    "event"
+
+];
+
+
+// ========================================
+// HOMEPAGE
+// ========================================
+
+function renderHomePage() {
+
+    const app =
+        document.getElementById("app");
+
+
+    app.innerHTML = `
+
+        <section class="hero">
+
+            <h1>Your Codex</h1>
+
+            <p>
+                Explore the world of Red Rising
+                without spoiling what's ahead.
+            </p>
+
+            <button
+                class="progress-button"
+                onclick="openProgressSettings()"
+            >
+                Reading Progress
+            </button>
+
+        </section>
+
+
+        <section class="categories">
+
+            <h2>Explore</h2>
+
+            <div
+                id="category-grid"
+                class="category-grid"
+            ></div>
+
+        </section>
+
+    `;
+
+
+    renderCategories();
+
+}
+
+
+// ========================================
+// CATEGORY CARDS
+// ========================================
+
+function renderCategories() {
 
     const container =
-        document.getElementById("codex-content");
+        document.getElementById("category-grid");
+
 
     container.innerHTML = "";
 
 
-    characters.forEach(character => {
+    categoryOrder.forEach(category => {
 
-        const profile =
-            getCurrentProfile(character);
+        const info =
+            categoryInfo[category];
 
 
-        // If the reader hasn't encountered
-        // this character yet, don't show them.
+        const unlockedEntities =
+            entities.filter(entity => {
 
-        if (!profile) {
+                return (
+                    entity.category === category &&
+                    isEntityUnlocked(entity)
+                );
+
+            });
+
+
+        // Don't display empty categories.
+
+        if (unlockedEntities.length === 0) {
             return;
         }
 
 
         const card =
-            document.createElement("div");
+            document.createElement("a");
 
-        card.className = "codex-card";
+        card.href =
+            `#/category/${category}`;
 
-
-        let affiliationsHTML = "";
-
-        if (profile.affiliations.length > 0) {
-
-            affiliationsHTML = `
-                <p>
-                    <strong>Affiliations:</strong>
-                    ${profile.affiliations.join(", ")}
-                </p>
-            `;
-
-        }
-
-
-        let relationshipsHTML = "";
-
-        if (profile.relationships.length > 0) {
-
-            relationshipsHTML = `
-                <p>
-                    <strong>Relationships:</strong>
-                    ${profile.relationships.join(", ")}
-                </p>
-            `;
-
-        }
+        card.className =
+            "category-card";
 
 
         card.innerHTML = `
 
-            <h3>${character.name}</h3>
+            <div class="category-card-title">
+                ${info.title}
+            </div>
 
-            <p>
-                <strong>Identity:</strong>
-                ${profile.identity}
-            </p>
+            <div class="category-card-count">
+                ${unlockedEntities.length}
+            </div>
 
-            <p>
-                ${profile.summary}
-            </p>
-
-            ${affiliationsHTML}
-
-            ${relationshipsHTML}
+            <div class="category-card-description">
+                ${info.description}
+            </div>
 
         `;
 
@@ -206,15 +350,527 @@ function displayCharacters() {
 
 
 // ========================================
-// BOOK SELECTOR
+// CATEGORY PAGE
 // ========================================
 
-function populateBooks() {
+function renderCategoryPage(category) {
 
-    const bookSelect =
-        document.getElementById("book-select");
+    const app =
+        document.getElementById("app");
 
-    bookSelect.innerHTML = "";
+
+    const info =
+        categoryInfo[category];
+
+
+    if (!info) {
+
+        renderNotFound();
+
+        return;
+
+    }
+
+
+    const categoryEntities =
+        entities.filter(entity => {
+
+            return (
+                entity.category === category &&
+                isEntityUnlocked(entity)
+            );
+
+        });
+
+
+    app.innerHTML = `
+
+        <div class="breadcrumb">
+
+            <a href="#/">Codex</a>
+
+            <span>›</span>
+
+            <span>${info.title}</span>
+
+        </div>
+
+
+        <section class="page-header">
+
+            <h1>${info.title}</h1>
+
+            <p>${info.description}</p>
+
+        </section>
+
+
+        <section>
+
+            <div
+                class="entity-list"
+                id="entity-list"
+            ></div>
+
+        </section>
+
+    `;
+
+
+    const container =
+        document.getElementById("entity-list");
+
+
+    categoryEntities.forEach(entity => {
+
+        const profile =
+            getCurrentProfile(entity);
+
+
+        const card =
+            document.createElement("a");
+
+        card.href =
+            `#/entity/${entity.id}`;
+
+        card.className =
+            "entity-list-card";
+
+
+        card.innerHTML = `
+
+            <h3>${entity.name}</h3>
+
+            <p>
+                ${profile.summary}
+            </p>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+
+    if (categoryEntities.length === 0) {
+
+        container.innerHTML = `
+
+            <p class="empty-message">
+                Nothing has been revealed yet.
+            </p>
+
+        `;
+
+    }
+
+}
+
+
+// ========================================
+// ENTITY PAGE
+// ========================================
+
+function renderEntityPage(entityId) {
+
+    const entity =
+        getEntity(entityId);
+
+
+    if (!entity || !isEntityUnlocked(entity)) {
+
+        renderNotFound();
+
+        return;
+
+    }
+
+
+    const profile =
+        getCurrentProfile(entity);
+
+
+    const app =
+        document.getElementById("app");
+
+
+    const category =
+        categoryInfo[entity.category];
+
+
+    app.innerHTML = `
+
+        <div class="breadcrumb">
+
+            <a href="#/">
+                Codex
+            </a>
+
+            <span>›</span>
+
+            <a
+                href="#/category/${entity.category}"
+            >
+                ${category.title}
+            </a>
+
+            <span>›</span>
+
+            <span>${entity.name}</span>
+
+        </div>
+
+
+        <section class="entity-page">
+
+            <div class="entity-heading">
+
+                <div>
+
+                    <div class="entity-category">
+                        ${category.title}
+                    </div>
+
+                    <h1>${entity.name}</h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="entity-section">
+
+                <h2>Overview</h2>
+
+                <p>
+                    ${profile.summary}
+                </p>
+
+            </div>
+
+
+            <div class="entity-section">
+
+                <h2>Identity</h2>
+
+                <p>
+                    ${profile.identity}
+                </p>
+
+            </div>
+
+
+            ${renderAffiliations(profile)}
+
+
+            ${renderRelationships(profile)}
+
+        </section>
+
+    `;
+
+}
+
+
+// ========================================
+// AFFILIATIONS
+// ========================================
+
+function renderAffiliations(profile) {
+
+    if (
+        !profile.affiliations ||
+        profile.affiliations.length === 0
+    ) {
+
+        return "";
+
+    }
+
+
+    const links =
+        profile.affiliations
+            .map(item => {
+
+                return createEntityLink(
+                    item.entity
+                );
+
+            })
+            .filter(link => link !== "")
+            .join(", ");
+
+
+    if (!links) {
+        return "";
+    }
+
+
+    return `
+
+        <div class="entity-section">
+
+            <h2>Affiliations</h2>
+
+            <p>
+                ${links}
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+// ========================================
+// RELATIONSHIPS
+// ========================================
+
+function renderRelationships(profile) {
+
+    if (
+        !profile.relationships ||
+        profile.relationships.length === 0
+    ) {
+
+        return "";
+
+    }
+
+
+    const visibleRelationships =
+        profile.relationships
+            .map(item => {
+
+                const link =
+                    createEntityLink(
+                        item.entity
+                    );
+
+
+                if (!link) {
+                    return "";
+                }
+
+
+                return `
+
+                    <div class="relationship">
+
+                        ${link}
+
+                        <span>
+                            ${item.description}
+                        </span>
+
+                    </div>
+
+                `;
+
+            })
+            .filter(item => item !== "");
+
+
+    if (visibleRelationships.length === 0) {
+        return "";
+    }
+
+
+    return `
+
+        <div class="entity-section">
+
+            <h2>Relationships</h2>
+
+            ${visibleRelationships.join("")}
+
+        </div>
+
+    `;
+
+}
+
+
+// ========================================
+// NOT FOUND
+// ========================================
+
+function renderNotFound() {
+
+    const app =
+        document.getElementById("app");
+
+
+    app.innerHTML = `
+
+        <section class="page-header">
+
+            <h1>Nothing to see here</h1>
+
+            <p>
+                This information hasn't been revealed
+                at your current reading position.
+            </p>
+
+            <a
+                href="#/"
+                class="back-link"
+            >
+                Return to Codex
+            </a>
+
+        </section>
+
+    `;
+
+}
+
+
+// ========================================
+// READING PROGRESS SETTINGS
+// ========================================
+
+function openProgressSettings() {
+
+    const app =
+        document.getElementById("app");
+
+
+    app.innerHTML = `
+
+        <div class="breadcrumb">
+
+            <a href="#/">Codex</a>
+
+            <span>›</span>
+
+            <span>Reading Progress</span>
+
+        </div>
+
+
+        <section class="progress-page">
+
+            <h1>Reading Progress</h1>
+
+            <p>
+                Your Codex will only show information
+                you have reached in the story.
+            </p>
+
+
+            <div class="progress-form">
+
+                <label for="progress-book">
+                    Book
+                </label>
+
+                <select id="progress-book"></select>
+
+
+                <label for="progress-chapter">
+                    Chapter
+                </label>
+
+                <select id="progress-chapter"></select>
+
+
+                <button
+                    id="save-progress"
+                    class="progress-button"
+                >
+                    Save Progress
+                </button>
+
+            </div>
+
+        </section>
+
+    `;
+
+
+    populateProgressBooks();
+
+
+    document
+        .getElementById("progress-book")
+        .addEventListener(
+            "change",
+            function() {
+
+                populateProgressChapters(
+                    Number(this.value)
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById("save-progress")
+        .addEventListener(
+            "click",
+            function() {
+
+                currentBook =
+                    Number(
+                        document
+                            .getElementById(
+                                "progress-book"
+                            )
+                            .value
+                    );
+
+
+                currentChapter =
+                    Number(
+                        document
+                            .getElementById(
+                                "progress-chapter"
+                            )
+                            .value
+                    );
+
+
+                localStorage.setItem(
+                    "redRisingBook",
+                    currentBook
+                );
+
+
+                localStorage.setItem(
+                    "redRisingChapter",
+                    currentChapter
+                );
+
+
+                updateProgressSummary();
+
+                renderHomePage();
+
+                window.location.hash = "#/";
+
+            }
+        );
+
+}
+
+
+// ========================================
+// PROGRESS BOOK SELECTOR
+// ========================================
+
+function populateProgressBooks() {
+
+    const select =
+        document.getElementById(
+            "progress-book"
+        );
+
+
+    select.innerHTML = "";
 
 
     books.forEach(book => {
@@ -222,33 +878,51 @@ function populateBooks() {
         const option =
             document.createElement("option");
 
-        option.value = book.number;
 
-        option.textContent = book.title;
+        option.value =
+            book.number;
 
-        bookSelect.appendChild(option);
+
+        option.textContent =
+            book.title;
+
+
+        select.appendChild(option);
 
     });
 
 
-    bookSelect.value = currentBook;
+    select.value =
+        currentBook;
+
+
+    populateProgressChapters(
+        currentBook
+    );
 
 }
 
 
 // ========================================
-// CHAPTER SELECTOR
+// PROGRESS CHAPTER SELECTOR
 // ========================================
 
-function populateChapters() {
+function populateProgressChapters(
+    bookNumber
+) {
 
-    const chapterSelect =
-        document.getElementById("chapter-select");
+    const select =
+        document.getElementById(
+            "progress-chapter"
+        );
 
-    chapterSelect.innerHTML = "";
+
+    select.innerHTML = "";
 
 
-    const book = getBook(currentBook);
+    const book =
+        getBook(bookNumber);
+
 
     if (!book) {
         return;
@@ -260,7 +934,9 @@ function populateChapters() {
         const group =
             document.createElement("optgroup");
 
-        group.label = part.title;
+
+        group.label =
+            part.title;
 
 
         part.chapters.forEach(chapter => {
@@ -268,112 +944,167 @@ function populateChapters() {
             const option =
                 document.createElement("option");
 
-            option.value = chapter.number;
+
+            option.value =
+                chapter.number;
+
 
             option.textContent =
                 chapter.title;
+
 
             group.appendChild(option);
 
         });
 
 
-        chapterSelect.appendChild(group);
+        select.appendChild(group);
 
     });
 
 
-    chapterSelect.value = currentChapter;
+    select.value =
+        currentChapter;
+
+
+    // If the saved chapter doesn't exist
+    // in this book, select the first chapter.
+
+    if (
+        select.value !==
+        String(currentChapter)
+    ) {
+
+        select.selectedIndex = 0;
+
+    }
 
 }
 
 
 // ========================================
-// PROGRESS DISPLAY
+// PROGRESS SUMMARY
 // ========================================
 
-function updateProgressDisplay() {
+function updateProgressSummary() {
 
-    const progressText =
-        document.getElementById("current-progress");
-
-    const bookTitle =
-        getBookTitle(currentBook);
-
-
-    const chapterSelect =
-        document.getElementById("chapter-select");
-
-    const selectedOption =
-        chapterSelect.options[
-            chapterSelect.selectedIndex
-        ];
+    const element =
+        document.getElementById(
+            "progress-summary"
+        );
 
 
-    progressText.textContent =
-        `Reading progress: ${bookTitle}, ${selectedOption.textContent}`;
+    const book =
+        getBook(currentBook);
 
 
-    displayCharacters();
+    if (!book) {
+        return;
+    }
+
+
+    const chapter =
+        book.parts
+            .flatMap(part => part.chapters)
+            .find(
+                chapter =>
+                    chapter.number ===
+                    currentChapter
+            );
+
+
+    if (!chapter) {
+        return;
+    }
+
+
+    element.innerHTML = `
+
+        <a href="#/progress">
+
+            ${book.title}
+            -
+            ${chapter.title}
+
+        </a>
+
+    `;
 
 }
 
 
 // ========================================
-// BOOK CHANGE
+// ROUTING
 // ========================================
 
-document
-    .getElementById("book-select")
-    .addEventListener(
-        "change",
-        function() {
 
-            currentBook =
-                Number(this.value);
+// Because this is a GitHub Pages site,
+// we're using the URL hash for navigation.
+//
+// Examples:
+//
+// #/
+// #/category/character
+// #/entity/darrow
+//
 
-            currentChapter = 0;
+function route() {
 
-            populateChapters();
-
-        }
-    );
-
-
-// ========================================
-// UPDATE PROGRESS
-// ========================================
-
-document
-    .getElementById("update-progress")
-    .addEventListener(
-        "click",
-        function() {
-
-            const chapterSelect =
-                document.getElementById("chapter-select");
+    const hash =
+        window.location.hash;
 
 
-            currentChapter =
-                Number(chapterSelect.value);
+    if (!hash || hash === "#/" || hash === "#") {
+
+        renderHomePage();
+
+        return;
+
+    }
 
 
-            updateProgressDisplay();
+    const path =
+        hash.substring(2);
 
 
-            localStorage.setItem(
-                "redRisingBook",
-                currentBook
-            );
+    const parts =
+        path.split("/");
 
 
-            localStorage.setItem(
-                "redRisingChapter",
-                currentChapter
-            );
+    if (parts[0] === "category") {
 
-        }
-    );
+        renderCategoryPage(
+            parts[1]
+        );
+
+        return;
+
+    }
+
+
+    if (parts[0] === "entity") {
+
+        renderEntityPage(
+            parts[1]
+        );
+
+        return;
+
+    }
+
+
+    if (parts[0] === "progress") {
+
+        openProgressSettings();
+
+        return;
+
+    }
+
+
+    renderNotFound();
+
+}
 
 
 // ========================================
@@ -386,6 +1117,7 @@ function loadSavedProgress() {
         localStorage.getItem(
             "redRisingBook"
         );
+
 
     const savedChapter =
         localStorage.getItem(
@@ -409,11 +1141,39 @@ function loadSavedProgress() {
     }
 
 
-    populateBooks();
+    // Make sure saved progress still exists.
 
-    populateChapters();
+    const book =
+        getBook(currentBook);
 
-    updateProgressDisplay();
+
+    if (!book) {
+
+        currentBook = 1;
+        currentChapter = 1;
+
+    }
+
+
+    const chapterExists =
+        book.parts
+            .flatMap(part => part.chapters)
+            .some(
+                chapter =>
+                    chapter.number ===
+                    currentChapter
+            );
+
+
+    if (!chapterExists) {
+
+        currentChapter =
+            book.parts[0].chapters[0].number;
+
+    }
+
+
+    updateProgressSummary();
 
 }
 
@@ -422,4 +1182,12 @@ function loadSavedProgress() {
 // START
 // ========================================
 
+window.addEventListener(
+    "hashchange",
+    route
+);
+
+
 loadSavedProgress();
+
+route();
