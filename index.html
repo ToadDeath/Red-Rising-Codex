@@ -1,60 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Red Rising Codex</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
     <header>
-        <h1>RED RISING CODEX</h1>
-        <p>A spoiler-safe guide to the world of Red Rising</p>
+
+        <div class="header-inner">
+
+            <a
+                href="#/"
+                class="site-title"
+            >
+                RED RISING CODEX
+            </a>
+
+            <div
+                id="progress-summary"
+                class="progress-summary"
+            ></div>
+
+        </div>
+
     </header>
+
 
     <main>
 
-        <section class="progress-section">
-            <h2>Where are you?</h2>
-
-            <div class="progress-controls">
-
-                <div>
-                    <label for="book-select">Book</label>
-                    <select id="book-select"></select>
-                </div>
-
-                <div>
-                    <label for="chapter-input">Chapter</label>
-                    <select id="chapter-select"></select>
-                </div>
-
-                <button id="update-progress">Update Progress</button>
-
-            </div>
-
-            <p id="current-progress"></p>
-        </section>
-
-
-        <section class="codex-section">
-
-            <h2>Unlocked Information</h2>
-
-            <div id="codex-content"></div>
-
-        </section>
+        <div
+            id="app"
+            class="app"
+        ></div>
 
     </main>
 
+
     <footer>
+
         <p>Red Rising Codex</p>
+
     </footer>
 
+
     <script src="data.js"></script>
+
     <script src="script.js"></script>
 
 </body>
+
 </html>
