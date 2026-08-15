@@ -217,7 +217,7 @@ const entities = [
                 relationships: [
                     {
                         entity: "darrow",
-                        description: "An ally of Darrow.",
+                        description: "An ally of Sevro.",
                         from: {
                             book: 1,
                             chapter: 5
