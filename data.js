@@ -116,7 +116,8 @@ const entities = [
                     chapter: 1
                 },
 
-                identity: "A Red miner from Lykos on Mars.",
+                identity:
+                    "A Red miner from Lykos on Mars.",
 
                 summary:
                     "Darrow is a young Helldiver who works beneath the surface of Mars.",
@@ -160,7 +161,8 @@ const entities = [
                     chapter: 1
                 },
 
-                identity: "A Red living in Lykos on Mars.",
+                identity:
+                    "A Red living in Lykos on Mars.",
 
                 summary:
                     "Eo is Darrow's wife.",
@@ -204,7 +206,8 @@ const entities = [
                     chapter: 5
                 },
 
-                identity: "A Gold associated with the Howlers.",
+                identity:
+                    "A Gold associated with the Howlers.",
 
                 summary:
                     "Sevro is a Gold who becomes an important figure in Darrow's story.",
@@ -244,7 +247,8 @@ const entities = [
                     chapter: 1
                 },
 
-                identity: "A planet where Darrow and the Reds live.",
+                identity:
+                    "A planet where Darrow and the Reds live.",
 
                 summary:
                     "Mars is the setting for much of the beginning of Darrow's story.",
@@ -252,6 +256,7 @@ const entities = [
                 affiliations: [],
 
                 relationships: []
+
             }
 
         ]
@@ -271,7 +276,8 @@ const entities = [
                     chapter: 1
                 },
 
-                identity: "A mining colony on Mars.",
+                identity:
+                    "A mining colony on Mars.",
 
                 summary:
                     "Lykos is the home of Darrow and Eo.",
@@ -279,15 +285,19 @@ const entities = [
                 affiliations: [],
 
                 relationships: [
+
                     {
                         entity: "mars",
-                        description: "Lykos is located on Mars.",
+                        description:
+                            "Lykos is located on Mars.",
                         from: {
                             book: 1,
                             chapter: 1
                         }
                     }
+
                 ]
+
             }
 
         ]
@@ -311,7 +321,8 @@ const entities = [
                     chapter: 2
                 },
 
-                identity: "The ruling social and political order.",
+                identity:
+                    "The ruling social and political order.",
 
                 summary:
                     "The Society governs the civilization in which Darrow lives.",
@@ -319,23 +330,10 @@ const entities = [
                 affiliations: [],
 
                 relationships: []
+
             }
 
         ]
-    },
-
-
-    // ========================================
-    // HOUSES
-    // ========================================
-
-    // We'll add Houses here as we build the Codex.
-
-
-    // ========================================
-    // CONCEPTS
-    // ========================================
-
-    // We'll add concepts here as we build the Codex.
+    }
 
 ];
