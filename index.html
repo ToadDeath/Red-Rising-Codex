@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Rising Codex</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>RED RISING CODEX</h1>
+        <p>A spoiler-safe guide to the world of Red Rising</p>
+    </header>
+
+    <main>
+
+        <section class="progress-section">
+            <h2>Where are you?</h2>
+
+            <div class="progress-controls">
+
+                <div>
+                    <label for="book-select">Book</label>
+                    <select id="book-select">
+                        <option value="1">Red Rising</option>
+                        <option value="2">Golden Son</option>
+                        <option value="3">Morning Star</option>
+                        <option value="4">Iron Gold</option>
+                        <option value="5">Dark Age</option>
+                        <option value="6">Light Bringer</option>
+                        <option value="7">Red God</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="chapter-input">Chapter</label>
+                    <input type="number" id="chapter-input" min="1" value="1">
+                </div>
+
+                <button id="update-progress">Update Progress</button>
+
+            </div>
+
+            <p id="current-progress"></p>
+        </section>
+
+
+        <section class="codex-section">
+
+            <h2>Unlocked Information</h2>
+
+            <div id="codex-content"></div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Red Rising Codex</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
