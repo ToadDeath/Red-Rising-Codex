@@ -104,130 +104,141 @@ const entities = [
     // ========================================
 
     {
-        id: "darrow",
-        name: "Darrow",
-        category: "character",
+    id: "darrow",
+    name: "Darrow",
+    category: "character",
 
-        profiles: [
+    profiles: [
 
-            {
-                from: {
-                    book: 1,
-                    chapter: 1
-                },
+        {
+            from: {
+                book: 1,
+                chapter: 1
+            },
 
-                identity:
-                    "A Red miner from Lykos on Mars.",
+            identity: {
+                text:
+                    "Darrow is a Red miner from Lykos on Mars.",
 
-                summary:
+                links: {
+                    "Darrow": "darrow",
+                    "Lykos": "lykos",
+                    "Mars": "mars"
+                }
+            },
+
+            summary: {
+                text:
                     "Darrow is a young Helldiver who works beneath the surface of Mars.",
 
-                affiliations: [
-                    {
-                        entity: "lykos",
-                        from: {
-                            book: 1,
-                            chapter: 1
-                        }
+                links: {
+                    "Darrow": "darrow",
+                    "Mars": "mars"
+                }
+            },
+
+            affiliations: [
+                {
+                    entity: "lykos",
+                    from: {
+                        book: 1,
+                        chapter: 1
                     }
-                ],
+                }
+            ]
+        }
 
-                relationships: [
-                    {
-                        entity: "eo",
-                        description: "Darrow's wife.",
-                        from: {
-                            book: 1,
-                            chapter: 1
-                        }
-                    }
-                ]
-            }
-
-        ]
-    },
+    ]
+},
 
 
-    {
-        id: "eo",
-        name: "Eo",
-        category: "character",
+{
+    id: "eo",
+    name: "Eo",
+    category: "character",
 
-        profiles: [
+    profiles: [
 
-            {
-                from: {
-                    book: 1,
-                    chapter: 1
-                },
+        {
+            from: {
+                book: 1,
+                chapter: 1
+            },
 
-                identity:
-                    "A Red living in Lykos on Mars.",
+            identity: {
+                text:
+                    "Eo is a Red living in Lykos on Mars.",
 
-                summary:
+                links: {
+                    "Eo": "eo",
+                    "Lykos": "lykos",
+                    "Mars": "mars"
+                }
+            },
+
+            summary: {
+                text:
                     "Eo is Darrow's wife.",
 
-                affiliations: [
-                    {
-                        entity: "lykos",
-                        from: {
-                            book: 1,
-                            chapter: 1
-                        }
+                links: {
+                    "Eo": "eo",
+                    "Darrow": "darrow"
+                }
+            },
+
+            affiliations: [
+                {
+                    entity: "lykos",
+                    from: {
+                        book: 1,
+                        chapter: 1
                     }
-                ],
+                }
+            ]
+        }
 
-                relationships: [
-                    {
-                        entity: "darrow",
-                        description: "Eo's husband.",
-                        from: {
-                            book: 1,
-                            chapter: 1
-                        }
-                    }
-                ]
-            }
-
-        ]
-    },
+    ]
+},
 
 
-    {
-        id: "sevro",
-        name: "Sevro",
-        category: "character",
+{
+    id: "sevro",
+    name: "Sevro",
+    category: "character",
 
-        profiles: [
+    profiles: [
 
-            {
-                from: {
-                    book: 1,
-                    chapter: 5
-                },
+        {
+            from: {
+                book: 1,
+                chapter: 5
+            },
 
-                identity:
-                    "A Gold associated with the Howlers.",
+            identity: {
+                text:
+                    "Sevro is a Gold associated with the Howlers.",
 
-                summary:
+                links: {
+                    "Sevro": "sevro",
+                    "Howlers": "howlers"
+                }
+            },
+
+            summary: {
+                text:
                     "Sevro is a Gold who becomes an important figure in Darrow's story.",
 
-                affiliations: [],
+                links: {
+                    "Sevro": "sevro",
+                    "Darrow": "darrow"
+                }
+            },
 
-                relationships: [
-                    {
-                        entity: "darrow",
-                        description: "An ally of Sevro.",
-                        from: {
-                            book: 1,
-                            chapter: 5
-                        }
-                    }
-                ]
-            }
+            affiliations: []
+        }
 
-        ]
-    },
+    ]
+},
 
 
     // ========================================
