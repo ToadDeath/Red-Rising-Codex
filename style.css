@@ -1,117 +1,772 @@
+/* ========================================
+   GENERAL
+======================================== */
+
 * {
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0;
-    background: #111111;
-    color: #eeeeee;
-    font-family: Arial, sans-serif;
+
+    background:
+        #111111;
+
+    color:
+        #eeeeee;
+
+    font-family:
+        Arial, sans-serif;
+
+    min-height:
+        100vh;
 }
+
+
+a {
+    color:
+        inherit;
+
+    text-decoration:
+        none;
+}
+
+
+button,
+select {
+    font:
+        inherit;
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
 
 header {
-    text-align: center;
-    padding: 60px 20px 40px;
-    border-bottom: 1px solid #333333;
+    border-bottom:
+        1px solid #333333;
+
+    background:
+        #151515;
+
+    position:
+        sticky;
+
+    top:
+        0;
+
+    z-index:
+        10;
 }
 
-header h1 {
-    margin: 0;
-    font-family: Georgia, serif;
-    font-size: 42px;
-    letter-spacing: 4px;
+
+.header-inner {
+    max-width:
+        1100px;
+
+    margin:
+        0 auto;
+
+    padding:
+        18px 25px;
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        20px;
 }
 
-header p {
-    color: #aaaaaa;
-    margin-top: 12px;
+
+.site-title {
+    font-family:
+        Georgia, serif;
+
+    font-size:
+        22px;
+
+    letter-spacing:
+        3px;
+
+    font-weight:
+        bold;
 }
+
+
+.site-title:hover {
+    color:
+        #b22222;
+}
+
+
+.progress-summary {
+    font-size:
+        14px;
+
+    color:
+        #999999;
+}
+
+
+.progress-summary a:hover {
+    color:
+        #eeeeee;
+}
+
+
+/* ========================================
+   MAIN
+======================================== */
 
 main {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 20px;
+    max-width:
+        1100px;
+
+    margin:
+        0 auto;
+
+    padding:
+        45px 25px 70px;
 }
+
 
 section {
-    background: #1a1a1a;
-    border: 1px solid #333333;
-    border-radius: 8px;
-    padding: 25px;
-    margin-bottom: 25px;
+    background:
+        #1a1a1a;
+
+    border:
+        1px solid #333333;
+
+    border-radius:
+        8px;
+
+    padding:
+        30px;
+
+    margin-bottom:
+        25px;
 }
+
+
+/* ========================================
+   HERO
+======================================== */
+
+.hero {
+    text-align:
+        center;
+
+    padding:
+        65px 30px;
+}
+
+
+.hero h1 {
+    font-family:
+        Georgia, serif;
+
+    font-size:
+        44px;
+
+    letter-spacing:
+        3px;
+
+    margin:
+        0 0 15px;
+}
+
+
+.hero p {
+    color:
+        #aaaaaa;
+
+    max-width:
+        600px;
+
+    margin:
+        0 auto 25px;
+
+    line-height:
+        1.6;
+}
+
+
+/* ========================================
+   HEADINGS
+======================================== */
+
+h1,
+h2,
+h3 {
+    font-family:
+        Georgia, serif;
+}
+
+
+h1 {
+    margin-top:
+        0;
+}
+
 
 h2 {
-    margin-top: 0;
-    font-family: Georgia, serif;
+    margin-top:
+        0;
 }
 
-.progress-controls {
-    display: flex;
-    gap: 20px;
-    align-items: end;
-    flex-wrap: wrap;
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+.progress-button {
+    background:
+        #8b0000;
+
+    color:
+        white;
+
+    border:
+        none;
+
+    border-radius:
+        5px;
+
+    padding:
+        11px 20px;
+
+    cursor:
+        pointer;
 }
 
-.progress-controls div {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+
+.progress-button:hover {
+    background:
+        #a00000;
 }
 
-label {
-    color: #aaaaaa;
-    font-size: 14px;
+
+/* ========================================
+   CATEGORIES
+======================================== */
+
+.categories h2 {
+    margin-bottom:
+        20px;
 }
 
-select,
-input {
-    background: #222222;
-    color: white;
-    border: 1px solid #555555;
-    border-radius: 5px;
-    padding: 10px;
-    font-size: 16px;
+
+.category-grid {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(200px, 1fr)
+        );
+
+    gap:
+        15px;
 }
 
-button {
-    background: #8b0000;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 11px 18px;
-    font-size: 16px;
-    cursor: pointer;
+
+.category-card {
+    background:
+        #222222;
+
+    border:
+        1px solid #383838;
+
+    border-radius:
+        7px;
+
+    padding:
+        22px;
+
+    transition:
+        transform 0.15s,
+        border-color 0.15s;
 }
 
-button:hover {
-    background: #a00000;
+
+.category-card:hover {
+    transform:
+        translateY(-2px);
+
+    border-color:
+        #8b0000;
 }
 
-#current-progress {
-    color: #bbbbbb;
-    margin-bottom: 0;
+
+.category-card-title {
+    font-family:
+        Georgia, serif;
+
+    font-size:
+        21px;
+
+    margin-bottom:
+        8px;
 }
 
-.codex-card {
-    background: #222222;
-    border-left: 4px solid #8b0000;
-    padding: 18px;
-    margin-top: 15px;
-    border-radius: 4px;
+
+.category-card-count {
+    color:
+        #b22222;
+
+    font-size:
+        14px;
+
+    margin-bottom:
+        12px;
 }
 
-.codex-card h3 {
-    margin-top: 0;
+
+.category-card-description {
+    color:
+        #999999;
+
+    font-size:
+        14px;
+
+    line-height:
+        1.5;
 }
 
-.codex-card p {
-    color: #cccccc;
-    line-height: 1.6;
+
+/* ========================================
+   BREADCRUMBS
+======================================== */
+
+.breadcrumb {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    color:
+        #777777;
+
+    font-size:
+        14px;
+
+    margin-bottom:
+        20px;
 }
+
+
+.breadcrumb a {
+    color:
+        #aaaaaa;
+}
+
+
+.breadcrumb a:hover {
+    color:
+        #eeeeee;
+}
+
+
+/* ========================================
+   PAGE HEADER
+======================================== */
+
+.page-header {
+    margin-bottom:
+        25px;
+}
+
+
+.page-header h1 {
+    margin-bottom:
+        10px;
+}
+
+
+.page-header p {
+    color:
+        #999999;
+
+    line-height:
+        1.6;
+}
+
+
+/* ========================================
+   ENTITY LIST
+======================================== */
+
+.entity-list {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+    gap:
+        15px;
+}
+
+
+.entity-list-card {
+    display:
+        block;
+
+    background:
+        #222222;
+
+    border:
+        1px solid #383838;
+
+    border-radius:
+        7px;
+
+    padding:
+        20px;
+
+    transition:
+        transform 0.15s,
+        border-color 0.15s;
+}
+
+
+.entity-list-card:hover {
+    transform:
+        translateY(-2px);
+
+    border-color:
+        #8b0000;
+}
+
+
+.entity-list-card h3 {
+    margin:
+        0 0 10px;
+
+    font-size:
+        21px;
+}
+
+
+.entity-list-card p {
+    color:
+        #999999;
+
+    margin:
+        0;
+
+    line-height:
+        1.5;
+}
+
+
+/* ========================================
+   ENTITY PAGE
+======================================== */
+
+.entity-page {
+    padding:
+        35px;
+
+    max-width:
+        850px;
+
+    margin:
+        0 auto;
+}
+
+
+.entity-heading {
+    border-bottom:
+        1px solid #333333;
+
+    padding-bottom:
+        25px;
+
+    margin-bottom:
+        30px;
+}
+
+
+.entity-category {
+    color:
+        #8b0000;
+
+    text-transform:
+        uppercase;
+
+    font-size:
+        12px;
+
+    letter-spacing:
+        2px;
+
+    margin-bottom:
+        8px;
+}
+
+
+.entity-heading h1 {
+    font-size:
+        42px;
+
+    margin:
+        0;
+}
+
+
+.entity-section {
+    margin-bottom:
+        30px;
+}
+
+
+.entity-section:last-child {
+    margin-bottom:
+        0;
+}
+
+
+.entity-section h2 {
+    font-size:
+        23px;
+
+    margin-bottom:
+        12px;
+}
+
+
+.entity-section p {
+    color:
+        #cccccc;
+
+    line-height:
+        1.7;
+}
+
+
+/* ========================================
+   ENTITY LINKS
+======================================== */
+
+.entity-link {
+    color:
+        #c43b3b;
+
+    border-bottom:
+        1px solid transparent;
+}
+
+
+.entity-link:hover {
+    color:
+        #e05a5a;
+
+    border-bottom-color:
+        #e05a5a;
+}
+
+
+/* ========================================
+   RELATIONSHIPS
+======================================== */
+
+.relationship {
+    display:
+        flex;
+
+    align-items:
+        baseline;
+
+    gap:
+        10px;
+
+    padding:
+        10px 0;
+
+    border-bottom:
+        1px solid #292929;
+}
+
+
+.relationship:last-child {
+    border-bottom:
+        none;
+}
+
+
+.relationship span {
+    color:
+        #999999;
+
+    font-size:
+        14px;
+}
+
+
+/* ========================================
+   PROGRESS PAGE
+======================================== */
+
+.progress-page {
+    max-width:
+        650px;
+
+    margin:
+        0 auto;
+}
+
+
+.progress-page p {
+    color:
+        #999999;
+
+    line-height:
+        1.6;
+}
+
+
+.progress-form {
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        10px;
+
+    margin-top:
+        25px;
+}
+
+
+.progress-form label {
+    color:
+        #aaaaaa;
+
+    font-size:
+        14px;
+
+    margin-top:
+        10px;
+}
+
+
+.progress-form select {
+    background:
+        #222222;
+
+    color:
+        #eeeeee;
+
+    border:
+        1px solid #444444;
+
+    border-radius:
+        5px;
+
+    padding:
+        11px;
+}
+
+
+.progress-form button {
+    margin-top:
+        15px;
+}
+
+
+/* ========================================
+   EMPTY / ERROR
+======================================== */
+
+.empty-message {
+    color:
+        #888888;
+
+    text-align:
+        center;
+
+    padding:
+        30px;
+}
+
+
+.back-link {
+    display:
+        inline-block;
+
+    margin-top:
+        15px;
+
+    color:
+        #c43b3b;
+}
+
+
+/* ========================================
+   FOOTER
+======================================== */
 
 footer {
-    text-align: center;
-    color: #666666;
-    padding: 30px;
+    text-align:
+        center;
+
+    color:
+        #555555;
+
+    padding:
+        30px;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 650px) {
+
+    .header-inner {
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+    }
+
+
+    .hero h1 {
+        font-size:
+            32px;
+    }
+
+
+    .entity-page {
+        padding:
+            25px;
+    }
+
+
+    .entity-heading h1 {
+        font-size:
+            34px;
+    }
+
 }
