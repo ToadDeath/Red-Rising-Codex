@@ -306,37 +306,37 @@ const categoryInfo = {
     character: {
         title: "Characters",
         description:
-            "The people you have encountered so far."
+            "People you have encountered"
     },
 
     location: {
         title: "Locations",
         description:
-            "Places you have encountered so far."
+            "Places you have encountered"
     },
 
     house: {
         title: "Houses",
         description:
-            "The Houses and their members."
+            "Houses and their members."
     },
 
     faction: {
         title: "Factions",
         description:
-            "Organizations and political groups."
+            "Organizations and political groups"
     },
 
     concept: {
         title: "Concepts",
         description:
-            "Important ideas, terminology, technology, and customs."
+            "Important ideas, terminology, technology, and customs"
     },
 
     event: {
         title: "Events",
         description:
-            "Important events you have encountered."
+            "Important events you have encountered"
     }
 
 };
