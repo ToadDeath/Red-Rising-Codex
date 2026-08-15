@@ -119,22 +119,11 @@ const entities = [
                 identity: {
                     text:
                         "Darrow is a Red miner from Lykos on Mars.",
-
-                    links: {
-                        "Darrow": "darrow",
-                        "Lykos": "lykos",
-                        "Mars": "mars"
-                    }
                 },
 
                 summary: {
                     text:
                         "Darrow is a young Helldiver who works beneath the surface of Mars.",
-
-                    links: {
-                        "Darrow": "darrow",
-                        "Mars": "mars"
-                    }
                 }
 
             }
@@ -159,22 +148,11 @@ const entities = [
                 identity: {
                     text:
                         "Eo is a Red living in Lykos on Mars.",
-
-                    links: {
-                        "Eo": "eo",
-                        "Lykos": "lykos",
-                        "Mars": "mars"
-                    }
                 },
 
                 summary: {
                     text:
                         "Eo is Darrow's wife.",
-
-                    links: {
-                        "Eo": "eo",
-                        "Darrow": "darrow"
-                    }
                 }
 
             }
@@ -199,21 +177,11 @@ const entities = [
                 identity: {
                     text:
                         "Sevro is a Gold associated with the Howlers.",
-
-                    links: {
-                        "Sevro": "sevro",
-                        "Howlers": "howlers"
-                    }
                 },
 
                 summary: {
                     text:
                         "Sevro is a Gold who becomes an important figure in Darrow's story.",
-
-                    links: {
-                        "Sevro": "sevro",
-                        "Darrow": "darrow"
-                    }
                 }
 
             }
@@ -242,21 +210,11 @@ const entities = [
                 identity: {
                     text:
                         "Mars is the planet where Darrow and the Reds live.",
-
-                    links: {
-                        "Mars": "mars",
-                        "Darrow": "darrow"
-                    }
                 },
 
                 summary: {
                     text:
                         "Mars is the setting for much of the beginning of Darrow's story.",
-
-                    links: {
-                        "Mars": "mars",
-                        "Darrow": "darrow"
-                    }
                 }
 
             }
@@ -281,22 +239,11 @@ const entities = [
                 identity: {
                     text:
                         "Lykos is a mining colony on Mars.",
-
-                    links: {
-                        "Lykos": "lykos",
-                        "Mars": "mars"
-                    }
                 },
 
                 summary: {
                     text:
                         "Lykos is the home of Darrow and Eo.",
-
-                    links: {
-                        "Lykos": "lykos",
-                        "Darrow": "darrow",
-                        "Eo": "eo"
-                    }
                 }
 
             }
@@ -325,20 +272,11 @@ const entities = [
                 identity: {
                     text:
                         "The Society is the ruling social and political order.",
-
-                    links: {
-                        "The Society": "society"
-                    }
                 },
 
                 summary: {
                     text:
                         "The Society governs the civilization in which Darrow lives.",
-
-                    links: {
-                        "The Society": "society",
-                        "Darrow": "darrow"
-                    }
                 }
 
             }
