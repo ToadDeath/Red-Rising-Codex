@@ -1,0 +1,117 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #111111;
+    color: #eeeeee;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    border-bottom: 1px solid #333333;
+}
+
+header h1 {
+    margin: 0;
+    font-family: Georgia, serif;
+    font-size: 42px;
+    letter-spacing: 4px;
+}
+
+header p {
+    color: #aaaaaa;
+    margin-top: 12px;
+}
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+section {
+    background: #1a1a1a;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    margin-top: 0;
+    font-family: Georgia, serif;
+}
+
+.progress-controls {
+    display: flex;
+    gap: 20px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.progress-controls div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    color: #aaaaaa;
+    font-size: 14px;
+}
+
+select,
+input {
+    background: #222222;
+    color: white;
+    border: 1px solid #555555;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    background: #8b0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 11px 18px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #a00000;
+}
+
+#current-progress {
+    color: #bbbbbb;
+    margin-bottom: 0;
+}
+
+.codex-card {
+    background: #222222;
+    border-left: 4px solid #8b0000;
+    padding: 18px;
+    margin-top: 15px;
+    border-radius: 4px;
+}
+
+.codex-card h3 {
+    margin-top: 0;
+}
+
+.codex-card p {
+    color: #cccccc;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    color: #666666;
+    padding: 30px;
+}
