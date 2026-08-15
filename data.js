@@ -104,122 +104,122 @@ const entities = [
     // ========================================
 
     {
-    id: "darrow",
-    name: "Darrow",
-    category: "character",
+        id: "darrow",
+        name: "Darrow",
+        category: "character",
 
-    profiles: [
+        profiles: [
 
-        {
-            from: {
-                book: 1,
-                chapter: 1
-            },
+            {
+                from: {
+                    book: 1,
+                    chapter: 1
+                },
 
-            identity: {
-                text:
-                    "Darrow is a Red miner from Lykos on Mars.",
+                identity: {
+                    text:
+                        "Darrow is a Red miner from Lykos on Mars.",
 
-                links: {
-                    "Darrow": "darrow",
-                    "Lykos": "lykos",
-                    "Mars": "mars"
+                    links: {
+                        "Darrow": "darrow",
+                        "Lykos": "lykos",
+                        "Mars": "mars"
+                    }
+                },
+
+                summary: {
+                    text:
+                        "Darrow is a young Helldiver who works beneath the surface of Mars.",
+
+                    links: {
+                        "Darrow": "darrow",
+                        "Mars": "mars"
+                    }
                 }
-            },
 
-            summary: {
-                text:
-                    "Darrow is a young Helldiver who works beneath the surface of Mars.",
+            }
 
-                links: {
-                    "Darrow": "darrow",
-                    "Mars": "mars"
+        ]
+    },
+
+
+    {
+        id: "eo",
+        name: "Eo",
+        category: "character",
+
+        profiles: [
+
+            {
+                from: {
+                    book: 1,
+                    chapter: 1
+                },
+
+                identity: {
+                    text:
+                        "Eo is a Red living in Lykos on Mars.",
+
+                    links: {
+                        "Eo": "eo",
+                        "Lykos": "lykos",
+                        "Mars": "mars"
+                    }
+                },
+
+                summary: {
+                    text:
+                        "Eo is Darrow's wife.",
+
+                    links: {
+                        "Eo": "eo",
+                        "Darrow": "darrow"
+                    }
                 }
-            },
 
-        }
+            }
 
-    ]
-},
+        ]
+    },
 
 
-{
-    id: "eo",
-    name: "Eo",
-    category: "character",
+    {
+        id: "sevro",
+        name: "Sevro",
+        category: "character",
 
-    profiles: [
+        profiles: [
 
-        {
-            from: {
-                book: 1,
-                chapter: 1
-            },
+            {
+                from: {
+                    book: 1,
+                    chapter: 5
+                },
 
-            identity: {
-                text:
-                    "Eo is a Red living in Lykos on Mars.",
+                identity: {
+                    text:
+                        "Sevro is a Gold associated with the Howlers.",
 
-                links: {
-                    "Eo": "eo",
-                    "Lykos": "lykos",
-                    "Mars": "mars"
+                    links: {
+                        "Sevro": "sevro",
+                        "Howlers": "howlers"
+                    }
+                },
+
+                summary: {
+                    text:
+                        "Sevro is a Gold who becomes an important figure in Darrow's story.",
+
+                    links: {
+                        "Sevro": "sevro",
+                        "Darrow": "darrow"
+                    }
                 }
-            },
 
-            summary: {
-                text:
-                    "Eo is Darrow's wife.",
+            }
 
-                links: {
-                    "Eo": "eo",
-                    "Darrow": "darrow"
-                }
-            },
-
-        }
-
-    ]
-},
-
-
-{
-    id: "sevro",
-    name: "Sevro",
-    category: "character",
-
-    profiles: [
-
-        {
-            from: {
-                book: 1,
-                chapter: 5
-            },
-
-            identity: {
-                text:
-                    "Sevro is a Gold associated with the Howlers.",
-
-                links: {
-                    "Sevro": "sevro",
-                    "Howlers": "howlers"
-                }
-            },
-
-            summary: {
-                text:
-                    "Sevro is a Gold who becomes an important figure in Darrow's story.",
-
-                links: {
-                    "Sevro": "sevro",
-                    "Darrow": "darrow"
-                }
-            },
-
-        }
-
-    ]
-},
+        ]
+    },
 
 
     // ========================================
@@ -239,13 +239,25 @@ const entities = [
                     chapter: 1
                 },
 
-                identity:
-                    "A planet where Darrow and the Reds live.",
+                identity: {
+                    text:
+                        "Mars is the planet where Darrow and the Reds live.",
 
-                summary:
-                    "Mars is the setting for much of the beginning of Darrow's story.",
+                    links: {
+                        "Mars": "mars",
+                        "Darrow": "darrow"
+                    }
+                },
 
-                relationships: []
+                summary: {
+                    text:
+                        "Mars is the setting for much of the beginning of Darrow's story.",
+
+                    links: {
+                        "Mars": "mars",
+                        "Darrow": "darrow"
+                    }
+                }
 
             }
 
@@ -266,25 +278,26 @@ const entities = [
                     chapter: 1
                 },
 
-                identity:
-                    "A mining colony on Mars.",
+                identity: {
+                    text:
+                        "Lykos is a mining colony on Mars.",
 
-                summary:
-                    "Lykos is the home of Darrow and Eo.",
-
-                relationships: [
-
-                    {
-                        entity: "mars",
-                        description:
-                            "Lykos is located on Mars.",
-                        from: {
-                            book: 1,
-                            chapter: 1
-                        }
+                    links: {
+                        "Lykos": "lykos",
+                        "Mars": "mars"
                     }
+                },
 
-                ]
+                summary: {
+                    text:
+                        "Lykos is the home of Darrow and Eo.",
+
+                    links: {
+                        "Lykos": "lykos",
+                        "Darrow": "darrow",
+                        "Eo": "eo"
+                    }
+                }
 
             }
 
@@ -309,13 +322,24 @@ const entities = [
                     chapter: 2
                 },
 
-                identity:
-                    "The ruling social and political order.",
+                identity: {
+                    text:
+                        "The Society is the ruling social and political order.",
 
-                summary:
-                    "The Society governs the civilization in which Darrow lives.",
+                    links: {
+                        "The Society": "society"
+                    }
+                },
 
-                relationships: []
+                summary: {
+                    text:
+                        "The Society governs the civilization in which Darrow lives.",
+
+                    links: {
+                        "The Society": "society",
+                        "Darrow": "darrow"
+                    }
+                }
 
             }
 
