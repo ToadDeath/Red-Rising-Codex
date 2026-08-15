@@ -168,6 +168,107 @@ function createEntityLink(
 
 
 // ========================================
+// INLINE ENTITY REFERENCES
+// ========================================
+
+// Turn entity names inside normal prose into
+// clickable links when those entities are unlocked.
+
+function renderLinkedText(item) {
+
+    if (!item) {
+        return "";
+    }
+
+
+    // If the content is still a plain string,
+    // display it normally.
+
+    if (typeof item === "string") {
+        return item;
+    }
+
+
+    if (!item.text) {
+        return "";
+    }
+
+
+    let text =
+        item.text;
+
+
+    if (!item.links) {
+        return text;
+    }
+
+
+    const linkNames =
+        Object.keys(item.links);
+
+
+    // Replace longer names first.
+
+    linkNames.sort(
+        (a, b) =>
+            b.length - a.length
+    );
+
+
+    linkNames.forEach(linkText => {
+
+        const entityId =
+            item.links[linkText];
+
+
+        const entity =
+            getEntity(entityId);
+
+
+        // If the entity hasn't been revealed yet,
+        // leave the text as normal text.
+
+        if (
+            !entity ||
+            !isEntityUnlocked(entity)
+        ) {
+            return;
+        }
+
+
+        const escapedText =
+            linkText.replace(
+                /[.*+?^${}()|[\]\\]/g,
+                "\\$&"
+            );
+
+
+        const regex =
+            new RegExp(
+                escapedText,
+                "g"
+            );
+
+
+        const link =
+            `<a href="#/entity/${entity.id}" class="entity-link">${linkText}</a>`;
+
+
+        text =
+            text.replace(
+                regex,
+                link
+            );
+
+    });
+
+
+    return text;
+
+}
+
+
+// ========================================
 // CATEGORY INFORMATION
 // ========================================
 
@@ -442,7 +543,7 @@ function renderCategoryPage(category) {
             <h3>${entity.name}</h3>
 
             <p>
-                ${profile.summary}
+                ${renderLinkedText(profile.summary)}
             </p>
 
         `;
@@ -544,7 +645,7 @@ function renderEntityPage(entityId) {
                 <h2>Overview</h2>
 
                 <p>
-                    ${profile.summary}
+                    ${renderLinkedText(profile.summary)}
                 </p>
 
             </div>
@@ -555,7 +656,7 @@ function renderEntityPage(entityId) {
                 <h2>Identity</h2>
 
                 <p>
-                    ${profile.identity}
+                    ${renderLinkedText(profile.identity)}
                 </p>
 
             </div>
@@ -563,8 +664,6 @@ function renderEntityPage(entityId) {
 
             ${renderAffiliations(profile)}
 
-
-            ${renderRelationships(profile)}
 
         </section>
 
