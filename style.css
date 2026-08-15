@@ -661,17 +661,8 @@ h2 {
 ======================================== */
 
 .relationship {
-    display:
-        flex;
-
-    align-items:
-        baseline;
-
-    gap:
-        10px;
-
     padding:
-        10px 0;
+        12px 0;
 
     border-bottom:
         1px solid #292929;
@@ -684,12 +675,21 @@ h2 {
 }
 
 
-.relationship span {
+.relationship-name {
+    margin-bottom:
+        4px;
+}
+
+
+.relationship-description {
     color:
         #999999;
 
     font-size:
         14px;
+
+    line-height:
+        1.5;
 }
 
 
