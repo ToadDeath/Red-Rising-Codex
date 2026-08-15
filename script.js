@@ -181,8 +181,7 @@ function renderLinkedText(item) {
     }
 
 
-    // If the content is still a plain string,
-    // display it normally.
+    // Plain text still works normally.
 
     if (typeof item === "string") {
         return item;
@@ -199,15 +198,25 @@ function renderLinkedText(item) {
 
 
     if (!item.links) {
-        return text;
+        return escapeHTML(text);
     }
+
+
+    // Escape the original text first.
+    // This prevents the prose itself from
+    // accidentally being interpreted as HTML.
+
+    text =
+        escapeHTML(text);
 
 
     const linkNames =
         Object.keys(item.links);
 
 
-    // Replace longer names first.
+    // Replace longer names first so that
+    // names containing other names don't
+    // interfere with one another.
 
     linkNames.sort(
         (a, b) =>
@@ -226,7 +235,7 @@ function renderLinkedText(item) {
 
 
         // If the entity hasn't been revealed yet,
-        // leave the text as normal text.
+        // leave the name as ordinary text.
 
         if (
             !entity ||
@@ -236,7 +245,11 @@ function renderLinkedText(item) {
         }
 
 
-        const escapedText =
+        const escapedLinkText =
+            escapeHTML(linkText);
+
+
+        const escapedRegex =
             linkText.replace(
                 /[.*+?^${}()|[\]\\]/g,
                 "\\$&"
@@ -245,13 +258,13 @@ function renderLinkedText(item) {
 
         const regex =
             new RegExp(
-                escapedText,
+                escapedRegex,
                 "g"
             );
 
 
         const link =
-            `<a href="#/entity/${entity.id}" class="entity-link">${linkText}</a>`;
+            `<a href="#/entity/${entity.id}" class="entity-link">${escapedLinkText}</a>`;
 
 
         text =
@@ -264,6 +277,22 @@ function renderLinkedText(item) {
 
 
     return text;
+
+}
+
+
+// ========================================
+// HTML ESCAPING
+// ========================================
+
+function escapeHTML(text) {
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
