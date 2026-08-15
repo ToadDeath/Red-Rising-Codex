@@ -94,15 +94,19 @@ const books = [
 
 
 // ========================================
-// RED RISING CODEX - CHARACTER DATA
+// RED RISING CODEX - ENTITY DATA
 // ========================================
 
-const characters = [
+const entities = [
+
+    // ========================================
+    // CHARACTERS
+    // ========================================
 
     {
         id: "darrow",
         name: "Darrow",
-        type: "character",
+        category: "character",
 
         profiles: [
 
@@ -118,12 +122,24 @@ const characters = [
                     "Darrow is a young Helldiver who works beneath the surface of Mars.",
 
                 affiliations: [
-                    "Lykos"
+                    {
+                        entity: "lykos",
+                        from: {
+                            book: 1,
+                            chapter: 1
+                        }
+                    }
                 ],
 
                 relationships: [
-                    "Eo",
-                    "Uncle Narol"
+                    {
+                        entity: "eo",
+                        description: "Darrow's wife.",
+                        from: {
+                            book: 1,
+                            chapter: 1
+                        }
+                    }
                 ]
             }
 
@@ -134,7 +150,7 @@ const characters = [
     {
         id: "eo",
         name: "Eo",
-        type: "character",
+        category: "character",
 
         profiles: [
 
@@ -150,11 +166,24 @@ const characters = [
                     "Eo is Darrow's wife.",
 
                 affiliations: [
-                    "Lykos"
+                    {
+                        entity: "lykos",
+                        from: {
+                            book: 1,
+                            chapter: 1
+                        }
+                    }
                 ],
 
                 relationships: [
-                    "Darrow"
+                    {
+                        entity: "darrow",
+                        description: "Eo's husband.",
+                        from: {
+                            book: 1,
+                            chapter: 1
+                        }
+                    }
                 ]
             }
 
@@ -165,7 +194,7 @@ const characters = [
     {
         id: "sevro",
         name: "Sevro",
-        type: "character",
+        category: "character",
 
         profiles: [
 
@@ -180,16 +209,133 @@ const characters = [
                 summary:
                     "Sevro is a Gold who becomes an important figure in Darrow's story.",
 
-                affiliations: [
-                    "Howlers"
-                ],
+                affiliations: [],
 
                 relationships: [
-                    "Darrow"
+                    {
+                        entity: "darrow",
+                        description: "An ally of Darrow.",
+                        from: {
+                            book: 1,
+                            chapter: 5
+                        }
+                    }
                 ]
             }
 
         ]
-    }
+    },
+
+
+    // ========================================
+    // LOCATIONS
+    // ========================================
+
+    {
+        id: "mars",
+        name: "Mars",
+        category: "location",
+
+        profiles: [
+
+            {
+                from: {
+                    book: 1,
+                    chapter: 1
+                },
+
+                identity: "A planet where Darrow and the Reds live.",
+
+                summary:
+                    "Mars is the setting for much of the beginning of Darrow's story.",
+
+                affiliations: [],
+
+                relationships: []
+            }
+
+        ]
+    },
+
+
+    {
+        id: "lykos",
+        name: "Lykos",
+        category: "location",
+
+        profiles: [
+
+            {
+                from: {
+                    book: 1,
+                    chapter: 1
+                },
+
+                identity: "A mining colony on Mars.",
+
+                summary:
+                    "Lykos is the home of Darrow and Eo.",
+
+                affiliations: [],
+
+                relationships: [
+                    {
+                        entity: "mars",
+                        description: "Lykos is located on Mars.",
+                        from: {
+                            book: 1,
+                            chapter: 1
+                        }
+                    }
+                ]
+            }
+
+        ]
+    },
+
+
+    // ========================================
+    // FACTIONS
+    // ========================================
+
+    {
+        id: "society",
+        name: "The Society",
+        category: "faction",
+
+        profiles: [
+
+            {
+                from: {
+                    book: 1,
+                    chapter: 2
+                },
+
+                identity: "The ruling social and political order.",
+
+                summary:
+                    "The Society governs the civilization in which Darrow lives.",
+
+                affiliations: [],
+
+                relationships: []
+            }
+
+        ]
+    },
+
+
+    // ========================================
+    // HOUSES
+    // ========================================
+
+    // We'll add Houses here as we build the Codex.
+
+
+    // ========================================
+    // CONCEPTS
+    // ========================================
+
+    // We'll add concepts here as we build the Codex.
 
 ];
