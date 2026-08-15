@@ -12,18 +12,6 @@ const books = [
         parts: [
 
             {
-                id: "prologue",
-                title: "Prologue",
-
-                chapters: [
-                    {
-                        number: 0,
-                        title: "Prologue"
-                    }
-                ]
-            },
-
-            {
                 id: "part-1",
                 title: "Part I: Slave",
 
