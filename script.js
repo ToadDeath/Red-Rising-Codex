@@ -171,112 +171,141 @@ function createEntityLink(
 // INLINE ENTITY REFERENCES
 // ========================================
 
-// Turn entity names inside normal prose into
-// clickable links when those entities are unlocked.
+// Automatically finds known entity names inside
+// normal prose and turns them into clickable links.
+//
+// An entity will NOT link to itself.
+// An entity will NOT link if it has not been revealed yet.
 
-function renderLinkedText(item) {
+function renderLinkedText(item, currentEntityId = null) {
 
     if (!item) {
         return "";
     }
 
 
-    // Plain text still works normally.
+    // Support both the old plain-string format
+    // and the newer object format.
 
-    if (typeof item === "string") {
-        return item;
-    }
+    const text =
+        typeof item === "string"
+            ? item
+            : item.text;
 
 
-    if (!item.text) {
+    if (!text) {
         return "";
     }
 
 
-    let text =
-        item.text;
+    // Find all entities that are currently unlocked
+    // and are not the entity whose page we're viewing.
+
+    const linkableEntities =
+        entities
+            .filter(entity => {
+
+                return (
+                    entity.id !== currentEntityId &&
+                    isEntityUnlocked(entity)
+                );
+
+            })
+            .sort((a, b) => {
+
+                // Check longer names first.
+                // This prevents shorter names from
+                // interfering with longer ones.
+
+                return (
+                    b.name.length -
+                    a.name.length
+                );
+
+            });
 
 
-    if (!item.links) {
-        return escapeHTML(text);
+    if (linkableEntities.length === 0) {
+        return text;
     }
 
 
-    // Escape the original text first.
-    // This prevents the prose itself from
-    // accidentally being interpreted as HTML.
+    // Protect the text while we insert links.
+    //
+    // This prevents an entity name that we already
+    // linked from being linked again.
 
-    text =
-        escapeHTML(text);
-
-
-    const linkNames =
-        Object.keys(item.links);
+    const placeholders = [];
 
 
-    // Replace longer names first so that
-    // names containing other names don't
-    // interfere with one another.
-
-    linkNames.sort(
-        (a, b) =>
-            b.length - a.length
-    );
+    let result = text;
 
 
-    linkNames.forEach(linkText => {
+    linkableEntities.forEach(entity => {
 
-        const entityId =
-            item.links[linkText];
+        // Escape special regex characters.
 
-
-        const entity =
-            getEntity(entityId);
-
-
-        // If the entity hasn't been revealed yet,
-        // leave the name as ordinary text.
-
-        if (
-            !entity ||
-            !isEntityUnlocked(entity)
-        ) {
-            return;
-        }
-
-
-        const escapedLinkText =
-            escapeHTML(linkText);
-
-
-        const escapedRegex =
-            linkText.replace(
+        const escapedName =
+            entity.name.replace(
                 /[.*+?^${}()|[\]\\]/g,
                 "\\$&"
             );
 
 
+        // Match the entity name as a complete word.
+        //
+        // This means "Mars" matches "Mars",
+        // but won't accidentally match something like
+        // "Marsupial".
+
         const regex =
             new RegExp(
-                escapedRegex,
+                `\\b${escapedName}\\b`,
                 "g"
             );
 
 
-        const link =
-            `<a href="#/entity/${entity.id}" class="entity-link">${escapedLinkText}</a>`;
-
-
-        text =
-            text.replace(
+        result =
+            result.replace(
                 regex,
-                link
+                match => {
+
+                    const placeholder =
+                        `___ENTITY_LINK_${placeholders.length}___`;
+
+
+                    placeholders.push({
+
+                        placeholder: placeholder,
+
+                        html:
+                            `<a href="#/entity/${entity.id}" class="entity-link">${match}</a>`
+
+                    });
+
+
+                    return placeholder;
+
+                }
             );
 
     });
 
 
-    return text;
+    // Restore the actual links.
+
+    placeholders.forEach(item => {
+
+        result =
+            result.replace(
+                item.placeholder,
+                item.html
+            );
+
+    });
+
+
+    return result;
 
 }
 
@@ -572,7 +601,7 @@ function renderCategoryPage(category) {
             <h3>${entity.name}</h3>
 
             <p>
-                ${renderLinkedText(profile.summary)}
+                ${renderLinkedText(profile.summary, entity.id)}
             </p>
 
         `;
@@ -674,7 +703,7 @@ function renderEntityPage(entityId) {
                 <h2>Overview</h2>
 
                 <p>
-                    ${renderLinkedText(profile.summary)}
+                    ${renderLinkedText(profile.summary, entity.id)}
                 </p>
 
             </div>
@@ -685,7 +714,7 @@ function renderEntityPage(entityId) {
                 <h2>Identity</h2>
 
                 <p>
-                    ${renderLinkedText(profile.identity)}
+                    ${renderLinkedText(profile.identity, entity.id)}
                 </p>
 
             </div>
