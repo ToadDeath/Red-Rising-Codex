@@ -137,15 +137,6 @@ const entities = [
                 }
             },
 
-            affiliations: [
-                {
-                    entity: "lykos",
-                    from: {
-                        book: 1,
-                        chapter: 1
-                    }
-                }
-            ]
         }
 
     ]
@@ -186,15 +177,6 @@ const entities = [
                 }
             },
 
-            affiliations: [
-                {
-                    entity: "lykos",
-                    from: {
-                        book: 1,
-                        chapter: 1
-                    }
-                }
-            ]
         }
 
     ]
@@ -234,7 +216,6 @@ const entities = [
                 }
             },
 
-            affiliations: []
         }
 
     ]
@@ -264,8 +245,6 @@ const entities = [
                 summary:
                     "Mars is the setting for much of the beginning of Darrow's story.",
 
-                affiliations: [],
-
                 relationships: []
 
             }
@@ -292,8 +271,6 @@ const entities = [
 
                 summary:
                     "Lykos is the home of Darrow and Eo.",
-
-                affiliations: [],
 
                 relationships: [
 
@@ -337,8 +314,6 @@ const entities = [
 
                 summary:
                     "The Society governs the civilization in which Darrow lives.",
-
-                affiliations: [],
 
                 relationships: []
 
