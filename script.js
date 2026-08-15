@@ -690,62 +690,7 @@ function renderEntityPage(entityId) {
 
             </div>
 
-
-            ${renderAffiliations(profile)}
-
-
         </section>
-
-    `;
-
-}
-
-
-// ========================================
-// AFFILIATIONS
-// ========================================
-
-function renderAffiliations(profile) {
-
-    if (
-        !profile.affiliations ||
-        profile.affiliations.length === 0
-    ) {
-
-        return "";
-
-    }
-
-
-    const links =
-        profile.affiliations
-            .map(item => {
-
-                return createEntityLink(
-                    item.entity
-                );
-
-            })
-            .filter(link => link !== "")
-            .join(", ");
-
-
-    if (!links) {
-        return "";
-    }
-
-
-    return `
-
-        <div class="entity-section">
-
-            <h2>Affiliations</h2>
-
-            <p>
-                ${links}
-            </p>
-
-        </div>
 
     `;
 
