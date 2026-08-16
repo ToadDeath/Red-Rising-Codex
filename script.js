@@ -171,20 +171,22 @@ function createEntityLink(
 // INLINE ENTITY REFERENCES
 // ========================================
 
-// Automatically finds entity names and aliases
-// inside normal prose and turns them into links.
+// Automatically turns entity names and aliases
+// into clickable links.
 //
-// An entity will NOT link to itself.
-// An entity will NOT link if it has not been revealed yet.
+// The current entity will never link to itself.
+// Entities that have not been revealed will
+// remain normal text.
 
-function renderLinkedText(item, currentEntityId = null) {
+function renderLinkedText(
+    item,
+    currentEntityId = null
+) {
 
     if (!item) {
         return "";
     }
 
-
-    // Support plain strings and content objects.
 
     const text =
         typeof item === "string"
@@ -197,30 +199,36 @@ function renderLinkedText(item, currentEntityId = null) {
     }
 
 
-    // Build a list of every name that can be used
-    // to identify an unlocked entity.
+    // Start with normal text escaped for HTML.
+
+    let result =
+        escapeHTML(text);
+
+
+    // Build the list of entities that are
+    // currently available to link.
 
     const linkTargets = [];
 
 
     entities.forEach(entity => {
 
-        // Never link the entity whose page
-        // we're currently viewing.
+        // Never link the page we are currently on.
 
         if (entity.id === currentEntityId) {
             return;
         }
 
 
-        // Only link entities the reader has reached.
+        // Don't link information that hasn't
+        // been revealed yet.
 
         if (!isEntityUnlocked(entity)) {
             return;
         }
 
 
-        // Add the primary name.
+        // Add the entity's main name.
 
         linkTargets.push({
             text: entity.name,
@@ -228,7 +236,7 @@ function renderLinkedText(item, currentEntityId = null) {
         });
 
 
-        // Add aliases that always belong to the entity.
+        // Add permanent aliases.
 
         if (entity.aliases) {
 
@@ -244,15 +252,12 @@ function renderLinkedText(item, currentEntityId = null) {
         }
 
 
-        // Get the profile that is currently visible
-        // to the reader.
+        // Add aliases that belong specifically
+        // to the currently visible profile.
 
         const currentProfile =
             getCurrentProfile(entity);
 
-
-        // Add aliases that belong specifically
-        // to the current profile.
 
         if (
             currentProfile &&
@@ -273,17 +278,19 @@ function renderLinkedText(item, currentEntityId = null) {
     });
 
 
-    // Nothing to link.
+    // If there is nothing to link, return the
+    // escaped text as-is.
 
     if (linkTargets.length === 0) {
-        return text;
+        return result;
     }
 
 
-    // Check longer names first.
+    // Longer names must be processed first.
     //
-    // For example, "The Society" should be checked
-    // before "Society".
+    // Example:
+    // "The Society" should be processed before
+    // "Society".
 
     linkTargets.sort((a, b) => {
 
@@ -295,41 +302,39 @@ function renderLinkedText(item, currentEntityId = null) {
     });
 
 
-    let result = text;
-
-
-    // We use placeholders while creating links.
-    // This prevents one newly-created link from
-    // being processed again.
+    // Temporary placeholders prevent links from
+    // being processed again when another entity
+    // name is searched.
 
     const placeholders = [];
 
 
     linkTargets.forEach(target => {
 
-        // Escape special characters so the entity
-        // name can safely be used inside a regex.
-
         const escapedName =
-            target.text.replace(
-                /[.*+?^${}()|[\]\\]/g,
-                "\\$&"
-            );
+            escapeHTML(target.text)
+                .replace(
+                    /[.*+?^${}()|[\]\\]/g,
+                    "\\$&"
+                );
 
 
-        // Match complete words only.
+        // Match complete words or phrases.
+        //
+        // This prevents "Mars" from matching
+        // something like "Marsh".
 
         const regex =
             new RegExp(
-                `\\b${escapedName}\\b`,
-                "g"
+                `(^|[^\\w])(${escapedName})(?=$|[^\\w])`,
+                "gi"
             );
 
 
         result =
             result.replace(
                 regex,
-                match => {
+                (fullMatch, before, match) => {
 
                     const placeholder =
                         `___ENTITY_LINK_${placeholders.length}___`;
@@ -345,7 +350,10 @@ function renderLinkedText(item, currentEntityId = null) {
                     });
 
 
-                    return placeholder;
+                    return (
+                        before +
+                        placeholder
+                    );
 
                 }
             );
@@ -353,8 +361,8 @@ function renderLinkedText(item, currentEntityId = null) {
     });
 
 
-    // Replace the placeholders with the
-    // actual clickable links.
+    // Replace placeholders with the actual
+    // clickable links.
 
     placeholders.forEach(item => {
 
