@@ -136,7 +136,6 @@ const entities = [
 
 }),
 
-
     {
     id: "eo",
     name: "Eo",
