@@ -151,7 +151,7 @@ function createProfile(options) {
 
 function createEntity(options) {
 
-    return {
+    const entity = {
 
         id:
             options.id,
@@ -169,6 +169,19 @@ function createEntity(options) {
             )
 
     };
+
+
+    // Add permanent aliases if provided.
+
+    if (options.aliases) {
+
+        entity.aliases =
+            options.aliases;
+
+    }
+
+
+    return entity;
 
 }
 
