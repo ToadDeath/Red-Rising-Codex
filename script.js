@@ -903,70 +903,95 @@ function renderNotFound() {
 
 
 // ========================================
-// READING PROGRESS SETTINGS
+// READING PROGRESS PANEL
 // ========================================
 
 function openProgressSettings() {
 
-    const app =
-        document.getElementById("app");
+    // Don't create the panel twice.
+
+    if (
+        document.getElementById(
+            "progress-panel"
+        )
+    ) {
+
+        return;
+
+    }
 
 
-    app.innerHTML = `
+    const panel =
+        document.createElement("div");
 
-        <div class="breadcrumb">
+    panel.id =
+        "progress-panel";
 
-            <a href="#/">Codex</a>
+    panel.className =
+        "progress-panel";
 
-            <span>›</span>
 
-            <span>Reading Progress</span>
+    panel.innerHTML = `
+
+        <div class="progress-panel-header">
+
+            <h2>Reading Progress</h2>
+
+            <button
+                id="close-progress"
+                class="progress-close"
+                aria-label="Close"
+            >
+                ×
+            </button>
 
         </div>
 
 
-        <section class="progress-page">
+        <div class="progress-panel-content">
 
-            <h1>Reading Progress</h1>
+            <label for="progress-book">
+                Book
+            </label>
 
-            <p>
-                Your Codex will only show information
-                you have reached in the story.
-            </p>
-
-
-            <div class="progress-form">
-
-                <label for="progress-book">
-                    Book
-                </label>
-
-                <select id="progress-book"></select>
+            <select id="progress-book"></select>
 
 
-                <label for="progress-chapter">
-                    Chapter
-                </label>
+            <label for="progress-chapter">
+                Chapter
+            </label>
 
-                <select id="progress-chapter"></select>
+            <select id="progress-chapter"></select>
 
 
-                <button
-                    id="save-progress"
-                    class="progress-button"
-                >
-                    Save Progress
-                </button>
+            <div
+                id="progress-current-part"
+                class="progress-current-part"
+            ></div>
 
-            </div>
 
-        </section>
+            <button
+                id="save-progress"
+                class="progress-button"
+            >
+                Save Progress
+            </button>
+
+        </div>
 
     `;
 
 
+    document.body.appendChild(panel);
+
+
+    // Populate the book selector.
+
     populateProgressBooks();
 
+
+    // Update the chapter list when
+    // the book changes.
 
     document
         .getElementById("progress-book")
@@ -978,9 +1003,28 @@ function openProgressSettings() {
                     Number(this.value)
                 );
 
+                updateProgressPanelPart();
+
             }
         );
 
+
+    // Update the displayed Part when
+    // the chapter changes.
+
+    document
+        .getElementById("progress-chapter")
+        .addEventListener(
+            "change",
+            function() {
+
+                updateProgressPanelPart();
+
+            }
+        );
+
+
+    // Save the new reading progress.
 
     document
         .getElementById("save-progress")
@@ -1020,14 +1064,128 @@ function openProgressSettings() {
                 );
 
 
+                // Remove the panel.
+
+                panel.remove();
+
+
+                // Update the progress bar.
+
                 updateProgressSummary();
 
-                renderHomePage();
 
-                window.location.hash = "#/";
+                // Re-render the page we're
+                // currently looking at.
+
+                route();
 
             }
         );
+
+
+    // Close the panel.
+
+    document
+        .getElementById("close-progress")
+        .addEventListener(
+            "click",
+            function() {
+
+                panel.remove();
+
+            }
+        );
+
+
+    // Show the current Part.
+
+    updateProgressPanelPart();
+
+}
+
+
+// ========================================
+// PROGRESS PANEL PART
+// ========================================
+
+function updateProgressPanelPart() {
+
+    const partElement =
+        document.getElementById(
+            "progress-current-part"
+        );
+
+
+    if (!partElement) {
+        return;
+    }
+
+
+    const bookSelect =
+        document.getElementById(
+            "progress-book"
+        );
+
+
+    const chapterSelect =
+        document.getElementById(
+            "progress-chapter"
+        );
+
+
+    if (
+        !bookSelect ||
+        !chapterSelect
+    ) {
+
+        return;
+
+    }
+
+
+    const bookNumber =
+        Number(bookSelect.value);
+
+
+    const chapterNumber =
+        Number(chapterSelect.value);
+
+
+    const book =
+        getBook(bookNumber);
+
+
+    if (!book) {
+
+        partElement.textContent = "";
+
+        return;
+
+    }
+
+
+    const currentPart =
+        book.parts.find(
+            part =>
+                part.chapters.some(
+                    chapter =>
+                        chapter.number ===
+                        chapterNumber
+                )
+        );
+
+
+    if (!currentPart) {
+
+        partElement.textContent = "";
+
+        return;
+
+    }
+
+
+    partElement.textContent =
+        currentPart.title;
 
 }
 
@@ -1212,6 +1370,7 @@ function updateProgressSummary() {
         <a
             href="#/progress"
             class="progress-link"
+            onclick="progressReturnHash = window.location.hash"
         >
 
             <div class="progress-book-title">
