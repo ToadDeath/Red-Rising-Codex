@@ -106,6 +106,11 @@ const entities = [
     {
         id: "darrow",
         name: "Darrow",
+
+        aliases: [
+        "The Reaper"
+        ],
+
         category: "character",
 
         profiles: [
@@ -135,6 +140,9 @@ const entities = [
     {
         id: "eo",
         name: "Eo",
+
+        aliases: [],
+
         category: "character",
 
         profiles: [
@@ -164,6 +172,11 @@ const entities = [
     {
         id: "sevro",
         name: "Sevro",
+
+        aliases: [
+        "Goblin"
+        ],
+
         category: "character",
 
         profiles: [
@@ -197,6 +210,9 @@ const entities = [
     {
         id: "mars",
         name: "Mars",
+
+        aliases: [],
+
         category: "location",
 
         profiles: [
@@ -226,6 +242,9 @@ const entities = [
     {
         id: "lykos",
         name: "Lykos",
+
+        aliases: [],
+
         category: "location",
 
         profiles: [
@@ -259,6 +278,11 @@ const entities = [
     {
         id: "society",
         name: "The Society",
+
+        aliases: [
+        "Society"
+        ],
+
         category: "faction",
 
         profiles: [
