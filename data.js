@@ -232,10 +232,31 @@ const entities = [
     // ========================================
 
    createEntity({
-
     id: "darrow",
-
     name: "Darrow",
+    category: "character",
+    profiles: [
+        {
+            from: [1, 1],
+            overview:
+                "Darrow is a young Red Helldiver who works beneath the surface of Mars."
+        },
+        {
+            from: [1, 21],
+            aliases: [
+                "The Reaper"
+            ],
+            overview:
+                "Darrow has entered the Institute and taken on a new identity within the Gold hierarchy."
+        }
+    ]
+}),
+
+   createEntity({
+
+    id: "eo",
+
+    name: "Eo",
 
     category: "character",
 
@@ -245,63 +266,15 @@ const entities = [
             from: [1, 1],
 
             overview:
-                "Darrow is a young Red Helldiver who works beneath the surface of Mars."
-        },
+                "Eo is Darrow's wife.",
 
-
-        {
-            from: [1, 21],
-
-            aliases: [
-                "The Reaper"
-            ],
-
-            overview:
-                "Darrow has entered the Institute and taken on a new identity within the Gold hierarchy."
+            identity:
+                "Eo is a Red living in Lykos on Mars."
         }
 
     ]
 
 }),
-
-    {
-    id: "eo",
-    name: "Eo",
-
-    aliases: [],
-
-    category: "character",
-
-    profiles: [
-
-        {
-            from: {
-                book: 1,
-                chapter: 1
-            },
-
-            sections: [
-
-                {
-                    title: "Overview",
-
-                    content:
-                        "Eo is Darrow's wife."
-                },
-
-                {
-                    title: "Identity",
-
-                    content:
-                        "Eo is a Red living in Lykos on Mars."
-                }
-
-            ]
-
-        }
-
-    ]
-},
 
 
     {
