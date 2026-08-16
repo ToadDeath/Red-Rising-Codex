@@ -228,15 +228,25 @@ function renderLinkedText(item, currentEntityId = null) {
         });
 
 
-        // Add aliases, if the entity has any.
+        // Get the profile that is currently visible
+        // to the reader.
 
-        if (entity.aliases) {
+        const currentProfile =
+            getCurrentProfile(entity);
 
-            entity.aliases.forEach(alias => {
+
+        // Add aliases that belong to the current profile.
+
+        if (
+            currentProfile &&
+            currentProfile.aliases
+        ) {
+
+            currentProfile.aliases.forEach(alias => {
 
                 linkTargets.push({
-                    text: alias,
-                    entityId: entity.id
+            text: alias,
+            entityId: entity.id
                 });
 
             });
