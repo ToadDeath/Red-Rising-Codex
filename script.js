@@ -228,30 +228,47 @@ function renderLinkedText(item, currentEntityId = null) {
         });
 
 
-        // Get the profile that is currently visible
-        // to the reader.
+        // Add aliases that always belong to the entity.
 
-        const currentProfile =
-            getCurrentProfile(entity);
+if (entity.aliases) {
 
+    entity.aliases.forEach(alias => {
 
-        // Add aliases that belong to the current profile.
-
-        if (
-            currentProfile &&
-            currentProfile.aliases
-        ) {
-
-            currentProfile.aliases.forEach(alias => {
-
-                linkTargets.push({
+        linkTargets.push({
             text: alias,
             entityId: entity.id
-                });
+        });
 
-            });
+    });
 
-        }
+}
+
+
+// Get the profile that is currently visible
+// to the reader.
+
+const currentProfile =
+    getCurrentProfile(entity);
+
+
+// Add aliases that belong specifically
+// to the current profile.
+
+if (
+    currentProfile &&
+    currentProfile.aliases
+) {
+
+    currentProfile.aliases.forEach(alias => {
+
+        linkTargets.push({
+            text: alias,
+            entityId: entity.id
+        });
+
+    });
+
+}
 
     });
 
