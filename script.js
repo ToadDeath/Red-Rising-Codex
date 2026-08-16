@@ -230,45 +230,45 @@ function renderLinkedText(item, currentEntityId = null) {
 
         // Add aliases that always belong to the entity.
 
-if (entity.aliases) {
+        if (entity.aliases) {
 
-    entity.aliases.forEach(alias => {
+            entity.aliases.forEach(alias => {
 
-        linkTargets.push({
-            text: alias,
-            entityId: entity.id
-        });
+                linkTargets.push({
+                    text: alias,
+                    entityId: entity.id
+                });
 
-    });
+            });
 
-}
-
-
-// Get the profile that is currently visible
-// to the reader.
-
-const currentProfile =
-    getCurrentProfile(entity);
+        }
 
 
-// Add aliases that belong specifically
-// to the current profile.
+        // Get the profile that is currently visible
+        // to the reader.
 
-if (
-    currentProfile &&
-    currentProfile.aliases
-) {
+        const currentProfile =
+            getCurrentProfile(entity);
 
-    currentProfile.aliases.forEach(alias => {
 
-        linkTargets.push({
-            text: alias,
-            entityId: entity.id
-        });
+        // Add aliases that belong specifically
+        // to the current profile.
 
-    });
+        if (
+            currentProfile &&
+            currentProfile.aliases
+        ) {
 
-}
+            currentProfile.aliases.forEach(alias => {
+
+                linkTargets.push({
+                    text: alias,
+                    entityId: entity.id
+                });
+
+            });
+
+        }
 
     });
 
@@ -571,6 +571,53 @@ function renderCategories() {
 
 
 // ========================================
+// ENTITY PREVIEW
+// ========================================
+
+// Get a short piece of text for category cards.
+
+function getEntityPreview(
+    profile,
+    currentEntityId
+) {
+
+    if (
+        !profile ||
+        !profile.sections ||
+        profile.sections.length === 0
+    ) {
+
+        return "";
+
+    }
+
+
+    const overview =
+        profile.sections.find(
+            section =>
+                section.title === "Overview"
+        );
+
+
+    if (!overview) {
+
+        return renderLinkedText(
+            profile.sections[0].content,
+            currentEntityId
+        );
+
+    }
+
+
+    return renderLinkedText(
+        overview.content,
+        currentEntityId
+    );
+
+}
+
+
+// ========================================
 // CATEGORY PAGE
 // ========================================
 
@@ -663,7 +710,7 @@ function renderCategoryPage(category) {
             <h3>${entity.name}</h3>
 
             <p>
-                ${renderLinkedText(profile.summary, entity.id)}
+                ${getEntityPreview(profile, entity.id)}
             </p>
 
         `;
@@ -685,6 +732,57 @@ function renderCategoryPage(category) {
         `;
 
     }
+
+}
+
+
+// ========================================
+// ENTITY SECTIONS
+// ========================================
+
+// Render the sections belonging to the
+// entity's currently visible profile.
+
+function renderEntitySections(
+    profile,
+    currentEntityId
+) {
+
+    if (
+        !profile ||
+        !profile.sections ||
+        profile.sections.length === 0
+    ) {
+
+        return "";
+
+    }
+
+
+    return profile.sections
+        .map(section => {
+
+            return `
+
+                <div class="entity-section">
+
+                    <h2>
+                        ${section.title}
+                    </h2>
+
+                    <p>
+                        ${renderLinkedText(
+                            section.content,
+                            currentEntityId
+                        )}
+                    </p>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
 
 }
 
@@ -759,27 +857,8 @@ function renderEntityPage(entityId) {
 
             </div>
 
-
-            <div class="entity-section">
-
-                <h2>Overview</h2>
-
-                <p>
-                    ${renderLinkedText(profile.summary, entity.id)}
-                </p>
-
-            </div>
-
-
-            <div class="entity-section">
-
-                <h2>Identity</h2>
-
-                <p>
-                    ${renderLinkedText(profile.identity, entity.id)}
-                </p>
-
-            </div>
+            
+            ${renderEntitySections(profile, entity.id)}
 
         </section>
 
