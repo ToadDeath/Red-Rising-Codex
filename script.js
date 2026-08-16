@@ -1368,9 +1368,12 @@ function updateProgressSummary() {
     element.innerHTML = `
 
         <a
-            href="#/progress"
+            href="#"
             class="progress-link"
-            onclick="progressReturnHash = window.location.hash"
+            onclick="
+                event.preventDefault();
+                openProgressSettings();
+            "
         >
 
             <div class="progress-book-title">
