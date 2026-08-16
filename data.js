@@ -103,58 +103,38 @@ const entities = [
     // CHARACTERS
     // ========================================
 
-   {
+   createEntity({
+
     id: "darrow",
+
     name: "Darrow",
+
     category: "character",
 
     profiles: [
 
         {
-            from: {
-                book: 1,
-                chapter: 1
-            },
+            from: [1, 1],
 
-            sections: [
-
-                {
-                    title: "Overview",
-
-                    content:
-                        "Darrow is a young Red Helldiver who works beneath the surface of Mars."
-                }
-
-            ]
-
+            overview:
+                "Darrow is a young Red Helldiver who works beneath the surface of Mars."
         },
 
 
         {
-            from: {
-                book: 1,
-                chapter: 21
-            },
+            from: [1, 21],
 
             aliases: [
                 "The Reaper"
             ],
 
-            sections: [
-
-                {
-                    title: "Overview",
-
-                    content:
-                        "Darrow has entered the Institute and taken on a new identity within the Gold hierarchy."
-                }
-
-            ]
-
+            overview:
+                "Darrow has entered the Institute and taken on a new identity within the Gold hierarchy."
         }
 
     ]
-},
+
+}),
 
 
     {
