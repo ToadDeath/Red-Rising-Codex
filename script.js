@@ -171,8 +171,8 @@ function createEntityLink(
 // INLINE ENTITY REFERENCES
 // ========================================
 
-// Automatically finds known entity names inside
-// normal prose and turns them into clickable links.
+// Automatically finds entity names and aliases
+// inside normal prose and turns them into links.
 //
 // An entity will NOT link to itself.
 // An entity will NOT link if it has not been revealed yet.
@@ -184,8 +184,7 @@ function renderLinkedText(item, currentEntityId = null) {
     }
 
 
-    // Support both the old plain-string format
-    // and the newer object format.
+    // Support plain strings and content objects.
 
     const text =
         typeof item === "string"
@@ -198,65 +197,100 @@ function renderLinkedText(item, currentEntityId = null) {
     }
 
 
-    // Find all entities that are currently unlocked
-    // and are not the entity whose page we're viewing.
+    // Build a list of every name that can be used
+    // to identify an unlocked entity.
 
-    const linkableEntities =
-        entities
-            .filter(entity => {
+    const linkTargets = [];
 
-                return (
-                    entity.id !== currentEntityId &&
-                    isEntityUnlocked(entity)
-                );
 
-            })
-            .sort((a, b) => {
+    entities.forEach(entity => {
 
-                // Check longer names first.
-                // This prevents shorter names from
-                // interfering with longer ones.
+        // Never link the entity whose page
+        // we're currently viewing.
 
-                return (
-                    b.name.length -
-                    a.name.length
-                );
+        if (entity.id === currentEntityId) {
+            return;
+        }
+
+
+        // Only link entities the reader has reached.
+
+        if (!isEntityUnlocked(entity)) {
+            return;
+        }
+
+
+        // Add the primary name.
+
+        linkTargets.push({
+            text: entity.name,
+            entityId: entity.id
+        });
+
+
+        // Add aliases, if the entity has any.
+
+        if (entity.aliases) {
+
+            entity.aliases.forEach(alias => {
+
+                linkTargets.push({
+                    text: alias,
+                    entityId: entity.id
+                });
 
             });
 
+        }
 
-    if (linkableEntities.length === 0) {
+    });
+
+
+    // Nothing to link.
+
+    if (linkTargets.length === 0) {
         return text;
     }
 
 
-    // Protect the text while we insert links.
+    // Check longer names first.
     //
-    // This prevents an entity name that we already
-    // linked from being linked again.
+    // For example, "The Society" should be checked
+    // before "Society".
 
-    const placeholders = [];
+    linkTargets.sort((a, b) => {
+
+        return (
+            b.text.length -
+            a.text.length
+        );
+
+    });
 
 
     let result = text;
 
 
-    linkableEntities.forEach(entity => {
+    // We use placeholders while creating links.
+    // This prevents one newly-created link from
+    // being processed again.
 
-        // Escape special regex characters.
+    const placeholders = [];
+
+
+    linkTargets.forEach(target => {
+
+        // Escape special characters so the entity
+        // name can safely be used inside a regex.
 
         const escapedName =
-            entity.name.replace(
+            target.text.replace(
                 /[.*+?^${}()|[\]\\]/g,
                 "\\$&"
             );
 
 
-        // Match the entity name as a complete word.
-        //
-        // This means "Mars" matches "Mars",
-        // but won't accidentally match something like
-        // "Marsupial".
+        // Match complete words only.
 
         const regex =
             new RegExp(
@@ -276,10 +310,10 @@ function renderLinkedText(item, currentEntityId = null) {
 
                     placeholders.push({
 
-                        placeholder: placeholder,
+                        placeholder,
 
                         html:
-                            `<a href="#/entity/${entity.id}" class="entity-link">${match}</a>`
+                            `<a href="#/entity/${target.entityId}" class="entity-link">${match}</a>`
 
                     });
 
@@ -292,7 +326,8 @@ function renderLinkedText(item, currentEntityId = null) {
     });
 
 
-    // Restore the actual links.
+    // Replace the placeholders with the
+    // actual clickable links.
 
     placeholders.forEach(item => {
 
