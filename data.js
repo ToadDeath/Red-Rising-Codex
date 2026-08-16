@@ -104,37 +104,56 @@ const entities = [
     // ========================================
 
     {
-        id: "darrow",
-        name: "Darrow",
+    id: "darrow",
+    name: "Darrow",
 
-        aliases: [
-        "The Reaper"
-        ],
+    category: "character",
 
-        category: "character",
+    profiles: [
 
-        profiles: [
+        {
+            from: {
+                book: 1,
+                chapter: 1
+            },
 
-            {
-                from: {
-                    book: 1,
-                    chapter: 1
-                },
+            identity: {
+                text:
+                    "Darrow is a Red miner from Lykos on Mars."
+            },
 
-                identity: {
-                    text:
-                        "Darrow is a Red miner from Lykos on Mars.",
-                },
-
-                summary: {
-                    text:
-                        "Darrow is a young Helldiver who works beneath the surface of Mars.",
-                }
-
+            summary: {
+                text:
+                    "Darrow is a young Helldiver who works beneath the surface of Mars."
             }
 
-        ]
-    },
+        },
+
+
+        {
+            from: {
+                book: 1,
+                chapter: 21
+            },
+
+            identity: {
+                text:
+                    "Darrow is a young Gold living among the Society's elite."
+            },
+
+            summary: {
+                text:
+                    "Darrow has entered the Institute and taken on a new identity within the Gold hierarchy."
+            },
+
+            aliases: [
+                "The Reaper"
+            ]
+
+        }
+
+    ]
+},
 
 
     {
