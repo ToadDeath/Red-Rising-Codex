@@ -60,6 +60,120 @@ function getCurrentReadingPosition() {
 
 
 // ========================================
+// DATA HELPERS
+// ========================================
+
+// Creates a profile using the simplified format.
+
+function createProfile(options) {
+
+    const profile = {
+
+        from: {
+            book: options.from[0],
+            chapter: options.from[1]
+        },
+
+        sections: []
+
+    };
+
+
+    // Add aliases if provided.
+
+    if (options.aliases) {
+
+        profile.aliases =
+            options.aliases;
+
+    }
+
+
+    // Add Overview.
+
+    if (options.overview) {
+
+        profile.sections.push({
+
+            title: "Overview",
+
+            content:
+                options.overview
+
+        });
+
+    }
+
+
+    // Add Identity.
+
+    if (options.identity) {
+
+        profile.sections.push({
+
+            title: "Identity",
+
+            content:
+                options.identity
+
+        });
+
+    }
+
+
+    // Add other sections later.
+
+    if (options.sections) {
+
+        options.sections.forEach(section => {
+
+            profile.sections.push({
+
+                title:
+                    section.title,
+
+                content:
+                    section.content
+
+            });
+
+        });
+
+    }
+
+
+    return profile;
+
+}
+
+
+// Creates an entity using the simplified format.
+
+function createEntity(options) {
+
+    return {
+
+        id:
+            options.id,
+
+        name:
+            options.name,
+
+        category:
+            options.category,
+
+        profiles:
+            options.profiles.map(
+                profile =>
+                    createProfile(profile)
+            )
+
+    };
+
+}
+
+
+// ========================================
 // PROFILE SYSTEM
 // ========================================
 
