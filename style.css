@@ -855,3 +855,156 @@ footer {
     }
 
 }
+
+
+/* ========================================
+   READING PROGRESS PANEL
+   ======================================== */
+
+.progress-panel {
+
+    position: fixed;
+
+    top: 0;
+    right: 0;
+
+    width: 360px;
+
+    max-width: 90vw;
+
+    background: white;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.2);
+
+    z-index: 1000;
+
+    border-radius:
+        0 0 0 12px;
+
+    animation:
+        progressPanelSlideDown
+        0.2s ease-out;
+
+}
+
+
+.progress-panel-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        18px 20px;
+
+    border-bottom:
+        1px solid #ddd;
+
+}
+
+
+.progress-panel-header h2 {
+
+    margin: 0;
+
+    font-size: 1.2rem;
+
+}
+
+
+.progress-close {
+
+    border: none;
+
+    background: none;
+
+    font-size: 1.8rem;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    padding: 0 4px;
+
+}
+
+
+.progress-panel-content {
+
+    padding: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+
+.progress-panel-content label {
+
+    font-weight: 600;
+
+    margin-top: 4px;
+
+}
+
+
+.progress-panel-content select {
+
+    width: 100%;
+
+    padding: 9px;
+
+    font-size: 1rem;
+
+}
+
+
+.progress-current-part {
+
+    font-size: 0.9rem;
+
+    color: #666;
+
+    margin-top: 2px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.progress-panel .progress-button {
+
+    width: 100%;
+
+    margin-top: 8px;
+
+}
+
+
+@keyframes progressPanelSlideDown {
+
+    from {
+
+        transform:
+            translateY(-100%);
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        transform:
+            translateY(0);
+
+        opacity: 1;
+
+    }
+
+}
