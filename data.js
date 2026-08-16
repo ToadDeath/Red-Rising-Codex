@@ -158,69 +158,85 @@ const entities = [
 
 
     {
-        id: "eo",
-        name: "Eo",
+    id: "eo",
+    name: "Eo",
 
-        aliases: [],
+    aliases: [],
 
-        category: "character",
+    category: "character",
 
-        profiles: [
+    profiles: [
 
-            {
-                from: {
-                    book: 1,
-                    chapter: 1
+        {
+            from: {
+                book: 1,
+                chapter: 1
+            },
+
+            sections: [
+
+                {
+                    title: "Overview",
+
+                    content:
+                        "Eo is Darrow's wife."
                 },
 
-                identity: {
-                    text:
-                        "Eo is a Red living in Lykos on Mars.",
-                },
+                {
+                    title: "Identity",
 
-                summary: {
-                    text:
-                        "Eo is Darrow's wife.",
+                    content:
+                        "Eo is a Red living in Lykos on Mars."
                 }
 
-            }
+            ]
 
-        ]
-    },
+        }
+
+    ]
+},
 
 
     {
-        id: "sevro",
-        name: "Sevro",
+    id: "sevro",
+    name: "Sevro",
 
-        aliases: [
+    aliases: [
         "Goblin"
-        ],
+    ],
 
-        category: "character",
+    category: "character",
 
-        profiles: [
+    profiles: [
 
-            {
-                from: {
-                    book: 1,
-                    chapter: 5
+        {
+            from: {
+                book: 1,
+                chapter: 5
+            },
+
+            sections: [
+
+                {
+                    title: "Overview",
+
+                    content:
+                        "Sevro is a Gold who becomes an important figure in Darrow's story."
                 },
 
-                identity: {
-                    text:
-                        "Sevro is a Gold associated with the Howlers.",
-                },
+                {
+                    title: "Identity",
 
-                summary: {
-                    text:
-                        "Sevro is a Gold who becomes an important figure in Darrow's story.",
+                    content:
+                        "Sevro is a Gold associated with the Howlers."
                 }
 
-            }
+            ]
 
-        ]
-    },
+        }
+
+    ]
+},
 
 
     // ========================================
@@ -228,67 +244,83 @@ const entities = [
     // ========================================
 
     {
-        id: "mars",
-        name: "Mars",
+    id: "mars",
+    name: "Mars",
 
-        aliases: [],
+    aliases: [],
 
-        category: "location",
+    category: "location",
 
-        profiles: [
+    profiles: [
 
-            {
-                from: {
-                    book: 1,
-                    chapter: 1
+        {
+            from: {
+                book: 1,
+                chapter: 1
+            },
+
+            sections: [
+
+                {
+                    title: "Overview",
+
+                    content:
+                        "Mars is the setting for much of the beginning of Darrow's story."
                 },
 
-                identity: {
-                    text:
-                        "Mars is the planet where Darrow and the Reds live.",
-                },
+                {
+                    title: "Description",
 
-                summary: {
-                    text:
-                        "Mars is the setting for much of the beginning of Darrow's story.",
+                    content:
+                        "Mars is the planet where Darrow and the Reds live."
                 }
 
-            }
+            ]
 
-        ]
-    },
+        }
+
+    ]
+},
 
 
     {
-        id: "lykos",
-        name: "Lykos",
+    id: "lykos",
+    name: "Lykos",
 
-        aliases: [],
+    aliases: [],
 
-        category: "location",
+    category: "location",
 
-        profiles: [
+    profiles: [
 
-            {
-                from: {
-                    book: 1,
-                    chapter: 1
+        {
+            from: {
+                book: 1,
+                chapter: 1
+            },
+
+            sections: [
+
+                {
+                    title: "Overview",
+
+                    content:
+                        "Lykos is the home of Darrow and Eo."
                 },
 
-                identity: {
-                    text:
-                        "Lykos is a mining colony on Mars.",
-                },
+                {
+                    title: "Description",
 
-                summary: {
-                    text:
-                        "Lykos is the home of Darrow and Eo.",
+                    content:
+                        "Lykos is a mining colony on Mars."
                 }
 
-            }
+            ]
 
-        ]
-    },
+        }
+
+    ]
+},
 
 
     // ========================================
@@ -296,36 +328,44 @@ const entities = [
     // ========================================
 
     {
-        id: "society",
-        name: "The Society",
+    id: "society",
+    name: "The Society",
 
-        aliases: [
+    aliases: [
         "Society"
-        ],
+    ],
 
-        category: "faction",
+    category: "faction",
 
-        profiles: [
+    profiles: [
 
-            {
-                from: {
-                    book: 1,
-                    chapter: 2
+        {
+            from: {
+                book: 1,
+                chapter: 2
+            },
+
+            sections: [
+
+                {
+                    title: "Overview",
+
+                    content:
+                        "The Society governs the civilization in which Darrow lives."
                 },
 
-                identity: {
-                    text:
-                        "The Society is the ruling social and political order.",
-                },
+                {
+                    title: "Description",
 
-                summary: {
-                    text:
-                        "The Society governs the civilization in which Darrow lives.",
+                    content:
+                        "The Society is the ruling social and political order."
                 }
 
-            }
+            ]
 
-        ]
-    }
+        }
+
+    ]
+}
 
 ];
