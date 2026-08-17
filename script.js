@@ -125,49 +125,6 @@ function isEntityUnlocked(entity) {
 
 
 // ========================================
-// ENTITY LINKS
-// ========================================
-
-
-// Turn an entity ID into a clickable link,
-// but only if the reader has encountered it.
-
-function createEntityLink(
-    entityId,
-    description = null
-) {
-
-    const entity =
-        getEntity(entityId);
-
-
-    if (!entity) {
-        return "";
-    }
-
-
-    if (!isEntityUnlocked(entity)) {
-        return "";
-    }
-
-
-    const text =
-        description || entity.name;
-
-
-    return `
-        <a
-            href="#/entity/${entity.id}"
-            class="entity-link"
-        >
-            ${text}
-        </a>
-    `;
-
-}
-
-
-// ========================================
 // INLINE ENTITY REFERENCES
 // ========================================
 
@@ -1317,9 +1274,11 @@ function populateProgressChapters(
 function updateProgressSummary() {
 
     const element =
-        document.getElementById(
-            "progress-summary"
-        );
+        document.getElementById("progress-summary");
+
+    if (!element) {
+        return;
+    }
 
 
     const book =
@@ -1526,25 +1485,20 @@ function loadSavedProgress() {
 
     // Make sure saved progress still exists.
 
-    const book =
-        getBook(currentBook);
-
+   let book = getBook(currentBook);
 
     if (!book) {
-
         currentBook = 1;
         currentChapter = 1;
-
+        book = getBook(currentBook);
     }
-
 
     const chapterExists =
         book.parts
             .flatMap(part => part.chapters)
             .some(
                 chapter =>
-                    chapter.number ===
-                    currentChapter
+                    chapter.number === currentChapter
             );
 
 
