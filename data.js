@@ -1,4 +1,18 @@
 // ========================================
+// EDITOR GUIDE
+// ========================================
+// id: Unique identifier. Use lowercase letters and hyphens. Example: "darrow"
+// name: Name displayed on the page
+// aliases: Other names the entity is known by
+// category: character, location, house, faction, concept, or event
+// from: [book number, chapter number]
+// overview: Main description shown on the page
+// Add another profile when NEW information is revealed later in the story.
+// Example: from: [1, 21] means the profile becomes visible after Book 1, Chapter 21.
+// ========================================
+
+
+// ========================================
 // RED RISING CODEX - STORY DATA
 // ========================================
 
@@ -231,221 +245,91 @@ const entities = [
     // CHARACTERS
     // ========================================
 
-   createEntity({
+createEntity({
     id: "darrow",
     name: "Darrow",
     category: "character",
     profiles: [
         {
             from: [1, 1],
-            overview:
-                "Darrow is a young Red Helldiver who works beneath the surface of Mars."
+            overview: "Darrow is a young Red Helldiver who works beneath the surface of Mars."
         },
         {
             from: [1, 21],
-            aliases: [
-                "The Reaper"
-            ],
-            overview:
-                "Darrow has entered the Institute and taken on a new identity within the Gold hierarchy."
+            aliases: ["The Reaper"],
+            overview: "Darrow has entered the Institute and taken on a new identity within the Gold hierarchy."
         }
     ]
 }),
-
-   createEntity({
-
+    
+createEntity({
     id: "eo",
-
     name: "Eo",
-
     category: "character",
-
     profiles: [
-
         {
             from: [1, 1],
-
-            overview:
-                "Eo is Darrow's wife.",
-
-            identity:
-                "Eo is a Red living in Lykos on Mars."
+            overview: "Eo is Darrow's wife. She is a Red living in Lykos on Mars."
         }
-
     ]
-
 }),
 
-
-    {
+createEntity({
     id: "sevro",
     name: "Sevro",
-
-    aliases: [
-        "Goblin"
-    ],
-
+    aliases: ["Goblin"],
     category: "character",
-
     profiles: [
-
         {
-            from: {
-                book: 1,
-                chapter: 5
-            },
-
-            sections: [
-
-                {
-                    title: "Overview",
-
-                    content:
-                        "Sevro is a Gold who becomes an important figure in Darrow's story."
-                },
-
-                {
-                    title: "Identity",
-
-                    content:
-                        "Sevro is a Gold associated with the Howlers."
-                }
-
-            ]
-
+            from: [1, 5],
+            overview: "Sevro is a Gold and leader of the Howlers who becomes an important figure in Darrow's story."
         }
-
     ]
-},
-
+}),
 
     // ========================================
     // LOCATIONS
     // ========================================
 
-    {
+createEntity({
     id: "mars",
     name: "Mars",
-
-    aliases: [],
-
     category: "location",
-
     profiles: [
-
         {
-            from: {
-                book: 1,
-                chapter: 1
-            },
-
-            sections: [
-
-                {
-                    title: "Overview",
-
-                    content:
-                        "Mars is the setting for much of the beginning of Darrow's story."
-                },
-
-                {
-                    title: "Description",
-
-                    content:
-                        "Mars is the planet where Darrow and the Reds live."
-                }
-
-            ]
-
+            from: [1, 1],
+            overview: "Mars is the setting for much of the beginning of Darrow's story. It is the planet where Darrow and the Reds live."
         }
-
     ]
-},
+}),
 
-
-    {
+createEntity({
     id: "lykos",
     name: "Lykos",
-
-    aliases: [],
-
     category: "location",
-
     profiles: [
-
         {
-            from: {
-                book: 1,
-                chapter: 1
-            },
-
-            sections: [
-
-                {
-                    title: "Overview",
-
-                    content:
-                        "Lykos is the home of Darrow and Eo."
-                },
-
-                {
-                    title: "Description",
-
-                    content:
-                        "Lykos is a mining colony on Mars."
-                }
-
-            ]
-
+            from: [1, 1],
+            overview: "Lykos is a mining colony on Mars, and is the home of Darrow and Eo."
         }
-
     ]
-},
-
+}),
 
     // ========================================
     // FACTIONS
     // ========================================
 
-    {
+createEntity({
     id: "society",
     name: "The Society",
-
-    aliases: [
-        "Society"
-    ],
-
+    aliases: ["Society"],
     category: "faction",
-
     profiles: [
-
         {
-            from: {
-                book: 1,
-                chapter: 2
-            },
-
-            sections: [
-
-                {
-                    title: "Overview",
-
-                    content:
-                        "The Society governs the civilization in which Darrow lives."
-                },
-
-                {
-                    title: "Description",
-
-                    content:
-                        "The Society is the ruling social and political order."
-                }
-
-            ]
-
+            from: [1, 2],
+            overview: "The Society is the ruling social and political order, and governs the civilization in which Darrow lives."
         }
-
     ]
-}
+}),
 
 ];
