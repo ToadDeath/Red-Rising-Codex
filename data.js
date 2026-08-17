@@ -192,7 +192,6 @@ const entities = [
     // ========================================
 
 createEntity({
-    id: "darrow",
     name: "Darrow",
     category: "character",
     profiles: [
@@ -209,7 +208,6 @@ createEntity({
 }),
     
 createEntity({
-    id: "eo",
     name: "Eo",
     category: "character",
     profiles: [
@@ -221,7 +219,6 @@ createEntity({
 }),
 
 createEntity({
-    id: "sevro",
     name: "Sevro",
     aliases: ["Goblin"],
     category: "character",
@@ -238,7 +235,6 @@ createEntity({
     // ========================================
 
 createEntity({
-    id: "mars",
     name: "Mars",
     category: "location",
     profiles: [
@@ -250,7 +246,6 @@ createEntity({
 }),
 
 createEntity({
-    id: "lykos",
     name: "Lykos",
     category: "location",
     profiles: [
@@ -266,7 +261,6 @@ createEntity({
     // ========================================
 
 createEntity({
-    id: "society",
     name: "The Society",
     aliases: ["Society"],
     category: "faction",
