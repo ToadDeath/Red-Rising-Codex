@@ -1,14 +1,21 @@
 // ========================================
-// EDITOR GUIDE
+// FOR EDITORS
 // ========================================
-// id: Unique identifier. Use lowercase letters and hyphens. Example: "darrow"
-// name: Name displayed on the page
-// aliases: Other names the entity is known by
+//
+// To add something, copy an entry below and change the information.
+//
+// name: The name shown on the page
 // category: character, location, house, faction, concept, or event
-// from: [book number, chapter number]
-// overview: Main description shown on the page
-// Add another profile when NEW information is revealed later in the story.
-// Example: from: [1, 21] means the profile becomes visible after Book 1, Chapter 21.
+// aliases: Other names, if any
+// from: [book, chapter] where this information is first known
+// overview: A short, spoiler-safe description
+//
+// Example:
+// from: [1, 21] = Book 1, Chapter 21
+//
+// If new information is revealed later, add another profile.
+//
+// You only need to edit the entries below.
 // ========================================
 
 
@@ -18,129 +25,68 @@
 
 
 // ========================================
-// DATA HELPERS
+// WEBSITE CODE
+// Do not edit below this line.
 // ========================================
-
-// Creates a profile using the simplified format.
 
 function createProfile(options) {
 
     const profile = {
-
         from: {
             book: options.from[0],
             chapter: options.from[1]
         },
-
         sections: []
-
     };
 
-
-    // Add aliases if provided.
-
     if (options.aliases) {
-
-        profile.aliases =
-            options.aliases;
-
+        profile.aliases = options.aliases;
     }
-
-
-    // Add Overview.
 
     if (options.overview) {
-
         profile.sections.push({
-
             title: "Overview",
-
-            content:
-                options.overview
-
+            content: options.overview
         });
-
     }
-
-
-    // Add Identity.
 
     if (options.identity) {
-
         profile.sections.push({
-
             title: "Identity",
-
-            content:
-                options.identity
-
+            content: options.identity
         });
-
     }
-
-
-    // Add other sections later.
 
     if (options.sections) {
-
         options.sections.forEach(section => {
-
             profile.sections.push({
-
-                title:
-                    section.title,
-
-                content:
-                    section.content
-
+                title: section.title,
+                content: section.content
             });
-
         });
-
     }
 
-
     return profile;
-
 }
 
-
-// Creates an entity using the simplified format.
 
 function createEntity(options) {
 
     const entity = {
-
-        id:
-            options.id,
-
-        name:
-            options.name,
-
-        category:
-            options.category,
-
-        profiles:
-            options.profiles.map(
-                profile =>
-                    createProfile(profile)
-            )
-
+        id: options.name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, ""),
+        name: options.name,
+        category: options.category,
+        profiles: options.profiles.map(profile => createProfile(profile))
     };
 
-
-    // Add permanent aliases if provided.
-
     if (options.aliases) {
-
-        entity.aliases =
-            options.aliases;
-
+        entity.aliases = options.aliases;
     }
 
-
     return entity;
-
 }
 
 
